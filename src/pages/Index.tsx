@@ -1,281 +1,235 @@
-import { useParams } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import { useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { useLocale } from "@/hooks/use-locale";
+import { useTranslation } from "react-i18next";
+import { PublicLayout } from "@/components/PublicLayout";
 import { supabase } from "@/integrations/supabase/client";
-import { PublicLayout } from "@/components/layout/PublicLayout";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
+
+interface Block {
+  key: string;
+  title: any;
+  content: any;
+}
+
+interface KPI {
+  key: string;
+  value_int?: number;
+  value_dec?: number;
+  year?: number;
+}
 
 const Index = () => {
-  const { locale } = useParams<{ locale: string }>();
-  const { i18n, t } = useTranslation();
+  const { locale } = useLocale();
+  const { t } = useTranslation();
+  const [blocks, setBlocks] = useState<Block[]>([]);
+  const [kpis, setKPIs] = useState<KPI[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (locale && i18n.language !== locale) {
-      i18n.changeLanguage(locale);
-    }
-  }, [locale, i18n]);
+    loadHomeData();
+  }, []);
 
-  // Fetch home page blocks
-  const { data: blocks } = useQuery({
-    queryKey: ['home-blocks'],
-    queryFn: async () => {
-      const { data: page } = await supabase
-        .from('page')
-        .select('id')
-        .eq('slug', 'home')
+  const loadHomeData = async () => {
+    try {
+      // Fetch home page blocks
+      const { data: pageData } = await supabase
+        .from("page")
+        .select("id")
+        .eq("slug", "home")
         .single();
 
-      if (!page) return [];
+      if (pageData) {
+        const { data: blocksData } = await supabase
+          .from("block")
+          .select("*")
+          .eq("page_id", pageData.id)
+          .order("sort");
 
-      const { data } = await supabase
-        .from('block')
-        .select('*')
-        .eq('page_id', page.id)
-        .order('sort');
+        if (blocksData) setBlocks(blocksData);
+      }
 
-      return data || [];
-    },
-  });
+      // Fetch KPIs
+      const { data: kpisData } = await supabase
+        .from("kpi")
+        .select("*")
+        .order("key");
 
-  // Fetch KPIs
-  const { data: kpis } = useQuery({
-    queryKey: ['kpis'],
-    queryFn: async () => {
-      const { data } = await supabase
-        .from('kpi')
-        .select('*')
-        .order('key');
-      return data || [];
-    },
-  });
-
-  // Fetch programs
-  const { data: programs } = useQuery({
-    queryKey: ['programs'],
-    queryFn: async () => {
-      const { data } = await supabase
-        .from('program')
-        .select('*')
-        .eq('status', 'published')
-        .limit(4);
-      return data || [];
-    },
-  });
-
-  // Fetch upcoming events
-  const { data: events } = useQuery({
-    queryKey: ['upcoming-events'],
-    queryFn: async () => {
-      const { data } = await supabase
-        .from('event')
-        .select('*')
-        .eq('status', 'published')
-        .gte('start_at', new Date().toISOString())
-        .order('start_at')
-        .limit(3);
-      return data || [];
-    },
-  });
-
-  // Fetch latest posts
-  const { data: posts } = useQuery({
-    queryKey: ['latest-posts'],
-    queryFn: async () => {
-      const { data } = await supabase
-        .from('post')
-        .select('*')
-        .eq('status', 'published')
-        .order('published_at', { ascending: false })
-        .limit(3);
-      return data || [];
-    },
-  });
-
-  const getLocalizedContent = (jsonContent: any) => {
-    if (!jsonContent) return '';
-    return jsonContent[i18n.language] || jsonContent.ar || jsonContent.en || '';
+      if (kpisData) setKPIs(kpisData);
+    } catch (error) {
+      console.error("Error loading home data:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const heroBlock = blocks?.find(b => b.key === 'hero');
-  const missionBlock = blocks?.find(b => b.key === 'mission');
-  const visionBlock = blocks?.find(b => b.key === 'vision');
-  const valuesBlock = blocks?.find(b => b.key === 'values');
+  const getBlockByKey = (key: string) =>
+    blocks.find((b) => b.key === key);
+
+  const getKPIValue = (key: string) => {
+    const kpi = kpis.find((k) => k.key === key);
+    return kpi?.value_int || kpi?.value_dec || 0;
+  };
+
+  if (loading) {
+    return (
+      <PublicLayout>
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <p>{t("common.loading")}</p>
+        </div>
+      </PublicLayout>
+    );
+  }
+
+  const hero = getBlockByKey("hero");
+  const mission = getBlockByKey("mission");
+  const vision = getBlockByKey("vision");
+  const values = getBlockByKey("values");
 
   return (
     <PublicLayout>
       <Helmet>
-        <title>{getLocalizedContent(heroBlock?.title)} | YDA</title>
-        <meta name="description" content={getLocalizedContent(heroBlock?.content)} />
+        <title>
+          {locale === "ar"
+            ? "جمعية السكري اليمنية | YDA"
+            : "Yemen Diabetes Association | YDA"}
+        </title>
+        <meta
+          name="description"
+          content={
+            locale === "ar"
+              ? "نعمل معاً من أجل مستقبل خالٍ من مضاعفات السكري في اليمن"
+              : "Working together for a future free from diabetes complications in Yemen"
+          }
+        />
       </Helmet>
 
       {/* Hero Section */}
-      <section className="py-20 px-4 bg-gradient-to-b from-primary/10 to-background">
-        <div className="container max-w-4xl mx-auto text-center">
+      <section className="bg-gradient-to-b from-primary/10 to-background py-20">
+        <div className="container text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            {getLocalizedContent(heroBlock?.title)}
+            {hero?.title?.[locale] || t("hero.title")}
           </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground mb-8">
-            {getLocalizedContent(heroBlock?.content)}
+          <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+            {hero?.content?.[locale] || t("hero.subtitle")}
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Button size="lg">{t('hero.cta1')}</Button>
-            <Button size="lg" variant="outline">{t('hero.cta2')}</Button>
-            <Button size="lg" variant="secondary">{t('hero.cta3')}</Button>
+            <Button size="lg" asChild>
+              <Link to={`/${locale}/events`}>{t("hero.cta1")}</Link>
+            </Button>
+            <Button size="lg" variant="outline" asChild>
+              <Link to={`/${locale}/get-involved`}>{t("hero.cta2")}</Link>
+            </Button>
           </div>
         </div>
       </section>
 
       {/* Mission, Vision, Values */}
-      <section className="py-16 px-4">
-        <div className="container max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
-          <Card>
-            <CardHeader>
-              <CardTitle>{getLocalizedContent(missionBlock?.title)}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">{getLocalizedContent(missionBlock?.content)}</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>{getLocalizedContent(visionBlock?.title)}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">{getLocalizedContent(visionBlock?.content)}</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>{getLocalizedContent(valuesBlock?.title)}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">{getLocalizedContent(valuesBlock?.content)}</p>
-            </CardContent>
-          </Card>
+      <section className="py-16 bg-muted/50">
+        <div className="container">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {mission && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>{mission.title[locale]}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">{mission.content[locale]}</p>
+                </CardContent>
+              </Card>
+            )}
+            {vision && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>{vision.title[locale]}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">{vision.content[locale]}</p>
+                </CardContent>
+              </Card>
+            )}
+            {values && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>{values.title[locale]}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">{values.content[locale]}</p>
+                </CardContent>
+              </Card>
+            )}
+          </div>
         </div>
       </section>
 
       {/* KPIs */}
-      <section className="py-16 px-4 bg-muted/50">
-        <div className="container max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">{t('home.kpis')}</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {kpis?.map((kpi) => (
-              <Card key={kpi.id} className="text-center">
-                <CardContent className="pt-6">
-                  <div className="text-4xl font-bold text-primary mb-2">
-                    {kpi.value_int?.toLocaleString() || kpi.value_dec || '—'}
-                    {kpi.key === 'adult_prevalence' && '%'}
-                  </div>
-                  <div className="text-sm text-muted-foreground">
-                    {kpi.key.replace(/_/g, ' ')}
-                  </div>
-                  {kpi.year && <div className="text-xs text-muted-foreground mt-1">({kpi.year})</div>}
-                </CardContent>
-              </Card>
-            ))}
+      <section className="py-16">
+        <div className="container">
+          <h2 className="text-3xl font-bold text-center mb-12">
+            {t("home.kpis")}
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Card className="text-center">
+              <CardContent className="pt-6">
+                <p className="text-5xl font-bold text-primary mb-2">
+                  {getKPIValue("adults_with_diabetes").toLocaleString()}
+                </p>
+                <p className="text-muted-foreground">
+                  {locale === "ar"
+                    ? "بالغ مصاب بالسكري"
+                    : "Adults with Diabetes"}
+                </p>
+                <p className="text-sm text-muted-foreground mt-1">
+                  {locale === "ar" ? "في اليمن (2024)" : "in Yemen (2024)"}
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center">
+              <CardContent className="pt-6">
+                <p className="text-5xl font-bold text-primary mb-2">
+                  {getKPIValue("adult_prevalence")}%
+                </p>
+                <p className="text-muted-foreground">
+                  {locale === "ar"
+                    ? "معدل انتشار السكري"
+                    : "Adult Prevalence"}
+                </p>
+                <p className="text-sm text-muted-foreground mt-1">2024</p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center">
+              <CardContent className="pt-6">
+                <p className="text-5xl font-bold text-primary mb-2">
+                  {getKPIValue("beneficiaries").toLocaleString() || "TBF"}
+                </p>
+                <p className="text-muted-foreground">
+                  {locale === "ar" ? "المستفيدون / السنة" : "Beneficiaries / Year"}
+                </p>
+                <p className="text-sm text-muted-foreground mt-1">
+                  {locale === "ar" ? "سيتم التحديد" : "To be filled"}
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
 
-      {/* Programs */}
-      <section className="py-16 px-4">
-        <div className="container max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold mb-12">{t('home.programs')}</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {programs?.map((program) => (
-              <Card key={program.id} className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <CardTitle className="text-lg">{getLocalizedContent(program.title)}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    {getLocalizedContent(program.summary)}
-                  </p>
-                  <Button variant="ghost" size="sm" className="w-full">
-                    {t('common.learnMore')} <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Upcoming Events */}
-      {events && events.length > 0 && (
-        <section className="py-16 px-4 bg-muted/50">
-          <div className="container max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold mb-12">{t('home.events')}</h2>
-            <div className="grid md:grid-cols-3 gap-6">
-              {events.map((event) => (
-                <Card key={event.id}>
-                  <CardHeader>
-                    <CardTitle className="text-lg">{getLocalizedContent(event.title)}</CardTitle>
-                    <CardDescription>
-                      {new Date(event.start_at).toLocaleDateString(i18n.language === 'ar' ? 'ar-YE' : 'en-US')}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground mb-4">
-                      {getLocalizedContent(event.summary)}
-                    </p>
-                    <Button variant="outline" size="sm" className="w-full">
-                      {t('common.viewAll')}
-                    </Button>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Latest Resources */}
-      {posts && posts.length > 0 && (
-        <section className="py-16 px-4">
-          <div className="container max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold mb-12">{t('home.resources')}</h2>
-            <div className="grid md:grid-cols-3 gap-6">
-              {posts.map((post) => (
-                <Card key={post.id}>
-                  <CardHeader>
-                    <CardTitle className="text-lg">{getLocalizedContent(post.title)}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground mb-4">
-                      {getLocalizedContent(post.excerpt)}
-                    </p>
-                    <Button variant="ghost" size="sm" className="w-full">
-                      {t('common.readMore')}
-                    </Button>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* CTA Section */}
-      <section className="py-20 px-4 bg-primary text-primary-foreground">
-        <div className="container max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-6">{t('home.cta')}</h2>
+      {/* CTA */}
+      <section className="py-16 bg-primary text-primary-foreground">
+        <div className="container text-center">
+          <h2 className="text-3xl font-bold mb-4">{t("home.cta")}</h2>
           <p className="text-lg mb-8 opacity-90">
-            {i18n.language === 'ar' 
-              ? 'كن جزءاً من حركة مكافحة السكري في اليمن'
-              : 'Be part of the movement to combat diabetes in Yemen'}
+            {locale === "ar"
+              ? "كن جزءاً من حركة مكافحة السكري في اليمن"
+              : "Be part of the movement to combat diabetes in Yemen"}
           </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Button size="lg" variant="secondary">{t('hero.cta2')}</Button>
-            <Button size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
-              {t('hero.cta3')}
-            </Button>
-          </div>
+          <Button size="lg" variant="secondary" asChild>
+            <Link to={`/${locale}/get-involved`}>{t("common.learnMore")}</Link>
+          </Button>
         </div>
       </section>
     </PublicLayout>
