@@ -2,25 +2,26 @@ import { Link } from "react-router-dom";
 import { useLocale } from "@/hooks/use-locale";
 import { useTranslation } from "react-i18next";
 import { Button } from "./ui/button";
-import { Globe } from "lucide-react";
+import { Globe, Home, Calendar, BookOpen, FileText, Users, Mail, Heart } from "lucide-react";
 
 export const Header = () => {
   const { locale, switchLocale } = useLocale();
   const { t } = useTranslation();
 
   const navItems = [
-    { label: t("nav.home"), path: `/${locale}` },
-    { label: t("nav.programs"), path: `/${locale}/programs` },
-    { label: t("nav.events"), path: `/${locale}/events` },
-    { label: t("nav.resources"), path: `/${locale}/resources` },
-    { label: t("nav.getInvolved"), path: `/${locale}/get-involved` },
-    { label: t("nav.contact"), path: `/${locale}/contact` },
+    { label: t("nav.home"), path: `/${locale}`, icon: Home },
+    { label: t("nav.programs"), path: `/${locale}/programs`, icon: BookOpen },
+    { label: t("nav.events"), path: `/${locale}/events`, icon: Calendar },
+    { label: t("nav.resources"), path: `/${locale}/resources`, icon: FileText },
+    { label: t("nav.getInvolved"), path: `/${locale}/get-involved`, icon: Users },
+    { label: t("nav.contact"), path: `/${locale}/contact`, icon: Mail },
   ];
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
-        <Link to={`/${locale}`} className="font-bold text-lg">
+        <Link to={`/${locale}`} className="flex items-center gap-2 font-bold text-lg hover:text-primary transition-colors">
+          <Heart className="h-6 w-6 text-primary fill-primary" />
           {t("nav.home")}
         </Link>
 

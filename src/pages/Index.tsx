@@ -10,6 +10,8 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { AnimatedCard } from "@/components/AnimatedCard";
 import { CountUpNumber } from "@/components/CountUpNumber";
+import { Target, Eye, Heart, Users, Activity, TrendingUp, Calendar } from "lucide-react";
+import heroImage from "@/assets/hero-diabetes-care.jpg";
 
 interface Block {
   key: string;
@@ -114,42 +116,63 @@ const Index = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-background to-accent/5 py-20 md:py-32"
+        className="relative overflow-hidden h-[600px] md:h-[700px]"
       >
-        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-5" />
-        <div className="container relative text-center">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text"
-          >
-            {hero?.title?.[locale] || t("hero.title")}
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto"
-          >
-            {hero?.content?.[locale] || t("hero.subtitle")}
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex flex-wrap gap-4 justify-center"
-          >
-            <Button size="lg" asChild className="shadow-lg">
-              <Link to={`/${locale}/events`}>{t("hero.cta1")}</Link>
-            </Button>
-            <Button size="lg" variant="outline" asChild>
-              <Link to={`/${locale}/get-involved`}>{t("hero.cta2")}</Link>
-            </Button>
-            <Button size="lg" variant="secondary" asChild>
-              <Link to={`/${locale}/contact`}>{t("hero.cta3")}</Link>
-            </Button>
-          </motion.div>
+        {/* Background Image with Overlay */}
+        <div className="absolute inset-0">
+          <img
+            src={heroImage}
+            alt="Diabetes care in Yemen"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/60" />
+        </div>
+
+        {/* Content */}
+        <div className="container relative h-full flex items-center">
+          <div className="max-w-2xl">
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-4xl md:text-6xl font-bold mb-6"
+            >
+              {hero?.title?.[locale] || t("hero.title")}
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="text-xl md:text-2xl text-muted-foreground mb-8"
+            >
+              {hero?.content?.[locale] || t("hero.subtitle")}
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="flex flex-wrap gap-4"
+            >
+              <Button size="lg" asChild className="shadow-lg">
+                <Link to={`/${locale}/events`}>
+                  <Calendar className="mr-2 h-5 w-5" />
+                  {t("hero.cta1")}
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild>
+                <Link to={`/${locale}/get-involved`}>
+                  <Users className="mr-2 h-5 w-5" />
+                  {t("hero.cta2")}
+                </Link>
+              </Button>
+              <Button size="lg" variant="secondary" asChild>
+                <Link to={`/${locale}/contact`}>
+                  <Heart className="mr-2 h-5 w-5" />
+                  {t("hero.cta3")}
+                </Link>
+              </Button>
+            </motion.div>
+          </div>
         </div>
       </motion.section>
 
@@ -160,7 +183,12 @@ const Index = () => {
             {mission && (
               <AnimatedCard delay={0}>
                 <CardHeader>
-                  <CardTitle>{mission.title[locale]}</CardTitle>
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="p-3 rounded-lg bg-primary/10">
+                      <Target className="h-6 w-6 text-primary" />
+                    </div>
+                    <CardTitle>{mission.title[locale]}</CardTitle>
+                  </div>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">{mission.content[locale]}</p>
@@ -170,7 +198,12 @@ const Index = () => {
             {vision && (
               <AnimatedCard delay={0.1}>
                 <CardHeader>
-                  <CardTitle>{vision.title[locale]}</CardTitle>
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="p-3 rounded-lg bg-primary/10">
+                      <Eye className="h-6 w-6 text-primary" />
+                    </div>
+                    <CardTitle>{vision.title[locale]}</CardTitle>
+                  </div>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">{vision.content[locale]}</p>
@@ -180,7 +213,12 @@ const Index = () => {
             {values && (
               <AnimatedCard delay={0.2}>
                 <CardHeader>
-                  <CardTitle>{values.title[locale]}</CardTitle>
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="p-3 rounded-lg bg-primary/10">
+                      <Heart className="h-6 w-6 text-primary" />
+                    </div>
+                    <CardTitle>{values.title[locale]}</CardTitle>
+                  </div>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">{values.content[locale]}</p>
@@ -205,6 +243,11 @@ const Index = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <AnimatedCard delay={0} className="text-center">
               <CardContent className="pt-6">
+                <div className="flex justify-center mb-4">
+                  <div className="p-4 rounded-full bg-primary/10">
+                    <Users className="h-8 w-8 text-primary" />
+                  </div>
+                </div>
                 <p className="text-5xl font-bold text-primary mb-2">
                   <CountUpNumber end={getKPIValue("adults_with_diabetes")} />
                 </p>
@@ -221,6 +264,11 @@ const Index = () => {
 
             <AnimatedCard delay={0.1} className="text-center">
               <CardContent className="pt-6">
+                <div className="flex justify-center mb-4">
+                  <div className="p-4 rounded-full bg-primary/10">
+                    <Activity className="h-8 w-8 text-primary" />
+                  </div>
+                </div>
                 <p className="text-5xl font-bold text-primary mb-2">
                   <CountUpNumber end={getKPIValue("adult_prevalence")} decimals={1} suffix="%" />
                 </p>
@@ -235,6 +283,11 @@ const Index = () => {
 
             <AnimatedCard delay={0.2} className="text-center">
               <CardContent className="pt-6">
+                <div className="flex justify-center mb-4">
+                  <div className="p-4 rounded-full bg-primary/10">
+                    <Heart className="h-8 w-8 text-primary" />
+                  </div>
+                </div>
                 <p className="text-5xl font-bold text-primary mb-2">
                   <CountUpNumber end={getKPIValue("beneficiaries") || 0} />
                 </p>
@@ -249,6 +302,11 @@ const Index = () => {
 
             <AnimatedCard delay={0.3} className="text-center">
               <CardContent className="pt-6">
+                <div className="flex justify-center mb-4">
+                  <div className="p-4 rounded-full bg-primary/10">
+                    <TrendingUp className="h-8 w-8 text-primary" />
+                  </div>
+                </div>
                 <p className="text-5xl font-bold text-primary mb-2">
                   <CountUpNumber end={kpis.length > 0 ? 3 : 0} />
                 </p>
