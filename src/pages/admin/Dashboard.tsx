@@ -1,22 +1,20 @@
-import { useEffect, useState } from "react";
-import { useNavigate, Routes, Route, Link, useLocation } from "react-router-dom";
+import { useState } from "react";
+import { Routes, Route, Link, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuthGuard } from "@/hooks/useAuthGuard";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   LayoutDashboard,
   FileText,
-  LayoutGrid,
-  TrendingUp,
   Calendar,
   BookOpen,
   FileEdit,
-  Users,
   Menu as MenuIcon,
   Settings,
-  Layers,
   LogOut,
   BarChart,
+  TrendingUp,
 } from "lucide-react";
 
 // Admin pages
@@ -31,95 +29,28 @@ import AdminSettings from "./Settings";
 import AdminSubmissions from "./Submissions";
 
 const AdminDashboard = () => {
-  const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<any>(null);
-  const [role, setRole] = useState<string | null>(null);
+  const { user, role, loading, isAuthenticated } = useAuthGuard(true);
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const navigate = useNavigate();
   const location = useLocation();
-
-  useEffect(() => {
-    console.log('[Admin Dashboard] Component mounted, checking auth...');
-    checkUser();
-
-    // Set up auth state listener
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        console.log('[Admin Dashboard] Auth state changed:', event, session?.user?.email);
-        if (event === 'SIGNED_OUT' || !session) {
-          console.log('[Admin Dashboard] No session, redirecting to login');
-          navigate("/admin/login");
-        } else if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
-          setUser(session.user);
-          
-          // Get user role
-          const { data: roleData } = await supabase
-            .from("user_roles")
-            .select("role")
-            .eq("user_id", session.user.id)
-            .maybeSingle();
-          
-          console.log('[Admin Dashboard] User role:', roleData?.role);
-          setRole(roleData?.role || null);
-          setLoading(false);
-        }
-      }
-    );
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [navigate]);
-
-  const checkUser = async () => {
-    try {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-
-      console.log('[Admin Dashboard] Session check:', session?.user?.email);
-
-      if (!session) {
-        console.log('[Admin Dashboard] No session found, redirecting to login');
-        navigate("/admin/login");
-        return;
-      }
-
-      setUser(session.user);
-
-      // Get user role
-      const { data: roleData } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", session.user.id)
-        .maybeSingle();
-
-      console.log('[Admin Dashboard] User role loaded:', roleData?.role);
-      setRole(roleData?.role || null);
-    } catch (error) {
-      console.error("[Admin Dashboard] Auth check error:", error);
-      navigate("/admin/login");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    navigate("/admin/login");
   };
 
+  // Show loading state while checking authentication
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
+          <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite] mb-4" />
           <p className="text-lg">Loading...</p>
         </div>
       </div>
     );
   }
 
-  if (!role) {
+  // User is authenticated but has no role assigned
+  if (isAuthenticated && !role) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Card className="max-w-md">
@@ -141,6 +72,12 @@ const AdminDashboard = () => {
         </Card>
       </div>
     );
+  }
+
+  // If not authenticated, the useAuthGuard hook will redirect
+  // This is just a safety check
+  if (!isAuthenticated) {
+    return null;
   }
 
   const menuItems = [
