@@ -58,10 +58,34 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
         },
       },
+      spacing: {
+        'xs': 'var(--spacing-xs)',
+        'sm': 'var(--spacing-sm)',
+        'md': 'var(--spacing-md)',
+        'lg': 'var(--spacing-lg)',
+        'xl': 'var(--spacing-xl)',
+        '2xl': 'var(--spacing-2xl)',
+      },
+      fontSize: {
+        'xs': 'var(--font-size-xs)',
+        'sm': 'var(--font-size-sm)',
+        'base': 'var(--font-size-base)',
+        'lg': 'var(--font-size-lg)',
+        'xl': 'var(--font-size-xl)',
+        '2xl': 'var(--font-size-2xl)',
+        '3xl': 'var(--font-size-3xl)',
+        '4xl': 'var(--font-size-4xl)',
+        '5xl': 'var(--font-size-5xl)',
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      transitionDuration: {
+        'fast': '150ms',
+        'base': '250ms',
+        'slow': '350ms',
       },
       keyframes: {
         "accordion-down": {
