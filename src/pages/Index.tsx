@@ -176,6 +176,39 @@ const Index = () => {
         </div>
       </motion.section>
 
+      {/* Video Section */}
+      <section className="py-16 bg-background">
+        <div className="container">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="max-w-4xl mx-auto"
+          >
+            <div className="text-center mb-8">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                {locale === "ar" ? "شاهد قصتنا" : "Watch Our Story"}
+              </h2>
+              <p className="text-lg text-muted-foreground">
+                {locale === "ar" 
+                  ? "تعرف على رؤيتنا ورسالتنا في مكافحة السكري في اليمن"
+                  : "Learn about our vision and mission in fighting diabetes in Yemen"}
+              </p>
+            </div>
+            <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-2xl">
+              <iframe
+                className="absolute inset-0 w-full h-full"
+                src="https://www.youtube.com/embed/F_GZYEtKaa0"
+                title="Yemen Diabetes Association Video"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Mission, Vision, Values */}
       <section className="py-16 bg-muted/50">
         <div className="container">
