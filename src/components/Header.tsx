@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 import { useLocale } from "@/hooks/use-locale";
 import { useTranslation } from "react-i18next";
 import { Button } from "./ui/button";
-import { Globe, Home, Calendar, BookOpen, FileText, Users, Mail, Heart } from "lucide-react";
+import { Globe, Home, Calendar, BookOpen, FileText, Users, Mail } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 export const Header = () => {
   const { locale, switchLocale } = useLocale();
@@ -20,9 +21,8 @@ export const Header = () => {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
-        <Link to={`/${locale}`} className="flex items-center gap-2 font-bold text-lg hover:text-primary transition-colors">
-          <Heart className="h-6 w-6 text-primary fill-primary" />
-          {t("nav.home")}
+        <Link to={`/${locale}`} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+          <img src={logo} alt="Yemen Diabetes Association" className="h-12 w-auto" />
         </Link>
 
         <nav className="hidden md:flex items-center gap-6">
