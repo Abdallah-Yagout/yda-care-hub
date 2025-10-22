@@ -14,6 +14,17 @@ const AdminLogin = () => {
   const [isSignup, setIsSignup] = useState(false);
   const navigate = useNavigate();
 
+  // Check if already logged in
+  useState(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        navigate("/admin", { replace: true });
+      }
+    };
+    checkSession();
+  });
+
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -34,17 +45,21 @@ const AdminLogin = () => {
         toast.success("Account created! Please check your email to confirm.");
       } else {
         // Sign in
-        const { error } = await supabase.auth.signInWithPassword({
+        const { data, error } = await supabase.auth.signInWithPassword({
           email,
           password,
         });
 
         if (error) throw error;
-
-        toast.success("Login successful");
-        navigate("/admin");
+        
+        if (data.session) {
+          toast.success("Login successful");
+          // Use replace to prevent going back to login
+          navigate("/admin", { replace: true });
+        }
       }
     } catch (error: any) {
+      console.error("Auth error:", error);
       toast.error(error.message || "Authentication failed");
     } finally {
       setLoading(false);

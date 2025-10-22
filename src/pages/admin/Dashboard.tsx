@@ -40,29 +40,60 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     checkUser();
-  }, []);
+
+    // Set up auth state listener
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        if (event === 'SIGNED_OUT' || !session) {
+          navigate("/admin/login");
+        } else if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+          setUser(session.user);
+          
+          // Get user role
+          const { data: roleData } = await supabase
+            .from("user_roles")
+            .select("role")
+            .eq("user_id", session.user.id)
+            .maybeSingle();
+          
+          setRole(roleData?.role || null);
+          setLoading(false);
+        }
+      }
+    );
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [navigate]);
 
   const checkUser = async () => {
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
+    try {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
 
-    if (!session) {
+      if (!session) {
+        navigate("/admin/login");
+        return;
+      }
+
+      setUser(session.user);
+
+      // Get user role
+      const { data: roleData } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", session.user.id)
+        .maybeSingle();
+
+      setRole(roleData?.role || null);
+    } catch (error) {
+      console.error("Auth check error:", error);
       navigate("/admin/login");
-      return;
+    } finally {
+      setLoading(false);
     }
-
-    setUser(session.user);
-
-    // Get user role
-    const { data: roleData } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", session.user.id)
-      .single();
-
-    setRole(roleData?.role || null);
-    setLoading(false);
   };
 
   const handleLogout = async () => {
