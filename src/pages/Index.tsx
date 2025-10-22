@@ -374,28 +374,35 @@ const Index = () => {
       </section>
 
       {/* KPIs */}
-      <section className="py-16">
+      <section className="py-24 bg-gradient-to-b from-muted/30 to-background">
         <div className="container">
-          <motion.h2
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl font-bold text-center mb-12"
+            className="text-center mb-16"
           >
-            {t("home.kpis")}
-          </motion.h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              {t("home.kpis")}
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              {locale === "ar" 
+                ? "إحصائيات ومؤشرات تأثيرنا في المجتمع"
+                : "Statistics and indicators of our community impact"}
+            </p>
+          </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <AnimatedCard delay={0} className="text-center">
+            <AnimatedCard delay={0} className="text-center group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-card to-card/80">
               <CardContent className="pt-6">
                 <div className="flex justify-center mb-4">
-                  <div className="p-4 rounded-full bg-primary/10">
+                  <div className="p-4 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 group-hover:from-primary/30 group-hover:to-primary/10 transition-all">
                     <Users className="h-8 w-8 text-primary" />
                   </div>
                 </div>
                 <p className="text-5xl font-bold text-primary mb-2">
                   <CountUpNumber end={getKPIValue("adults_with_diabetes")} />
                 </p>
-                <p className="text-muted-foreground">
+                <p className="text-muted-foreground font-medium">
                   {locale === "ar"
                     ? "بالغ مصاب بالسكري"
                     : "Adults with Diabetes"}
@@ -406,17 +413,17 @@ const Index = () => {
               </CardContent>
             </AnimatedCard>
 
-            <AnimatedCard delay={0.1} className="text-center">
+            <AnimatedCard delay={0.1} className="text-center group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-card to-card/80">
               <CardContent className="pt-6">
                 <div className="flex justify-center mb-4">
-                  <div className="p-4 rounded-full bg-primary/10">
+                  <div className="p-4 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 group-hover:from-primary/30 group-hover:to-primary/10 transition-all">
                     <Activity className="h-8 w-8 text-primary" />
                   </div>
                 </div>
                 <p className="text-5xl font-bold text-primary mb-2">
                   <CountUpNumber end={getKPIValue("adult_prevalence")} decimals={1} suffix="%" />
                 </p>
-                <p className="text-muted-foreground">
+                <p className="text-muted-foreground font-medium">
                   {locale === "ar"
                     ? "معدل انتشار السكري"
                     : "Adult Prevalence"}
@@ -425,17 +432,17 @@ const Index = () => {
               </CardContent>
             </AnimatedCard>
 
-            <AnimatedCard delay={0.2} className="text-center">
+            <AnimatedCard delay={0.2} className="text-center group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-card to-card/80">
               <CardContent className="pt-6">
                 <div className="flex justify-center mb-4">
-                  <div className="p-4 rounded-full bg-primary/10">
+                  <div className="p-4 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 group-hover:from-primary/30 group-hover:to-primary/10 transition-all">
                     <Heart className="h-8 w-8 text-primary" />
                   </div>
                 </div>
                 <p className="text-5xl font-bold text-primary mb-2">
                   <CountUpNumber end={getKPIValue("beneficiaries") || 0} />
                 </p>
-                <p className="text-muted-foreground">
+                <p className="text-muted-foreground font-medium">
                   {locale === "ar" ? "المستفيدون / السنة" : "Beneficiaries / Year"}
                 </p>
                 <p className="text-sm text-muted-foreground mt-1">
@@ -444,17 +451,17 @@ const Index = () => {
               </CardContent>
             </AnimatedCard>
 
-            <AnimatedCard delay={0.3} className="text-center">
+            <AnimatedCard delay={0.3} className="text-center group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-card to-card/80">
               <CardContent className="pt-6">
                 <div className="flex justify-center mb-4">
-                  <div className="p-4 rounded-full bg-primary/10">
+                  <div className="p-4 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 group-hover:from-primary/30 group-hover:to-primary/10 transition-all">
                     <TrendingUp className="h-8 w-8 text-primary" />
                   </div>
                 </div>
                 <p className="text-5xl font-bold text-primary mb-2">
                   <CountUpNumber end={kpis.length > 0 ? 3 : 0} />
                 </p>
-                <p className="text-muted-foreground">
+                <p className="text-muted-foreground font-medium">
                   {locale === "ar" ? "البرامج النشطة" : "Active Programs"}
                 </p>
                 <p className="text-sm text-muted-foreground mt-1">2025</p>
@@ -526,30 +533,35 @@ const Index = () => {
 
       {/* Events Preview */}
       {events.length > 0 && (
-        <section className="py-16">
+        <section className="py-24 bg-background">
           <div className="container">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-3xl font-bold">
-                {locale === "ar" ? "الفعاليات القادمة" : "Upcoming Events"}
-              </h2>
-              <Button variant="outline" asChild>
+            <div className="flex items-center justify-between mb-12">
+              <div>
+                <h2 className="text-4xl md:text-5xl font-bold mb-3">
+                  {locale === "ar" ? "الفعاليات القادمة" : "Upcoming Events"}
+                </h2>
+                <p className="text-lg text-muted-foreground">
+                  {locale === "ar" ? "انضم إلينا في فعالياتنا وورش العمل القادمة" : "Join us in our upcoming events and workshops"}
+                </p>
+              </div>
+              <Button variant="outline" size="lg" asChild className="hidden md:flex border-2 hover:shadow-md">
                 <Link to={`/${locale}/events`}>
-                  {locale === "ar" ? "عرض الكل" : "View All"}
+                  {locale === "ar" ? "عرض الكل" : "View All"} →
                 </Link>
               </Button>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
               {events.map((event, index) => (
-                <AnimatedCard key={event.id} delay={index * 0.1}>
+                <AnimatedCard key={event.id} delay={index * 0.1} className="group hover:shadow-2xl transition-all duration-300 border-0 bg-gradient-to-br from-card to-card/80">
                   <CardHeader>
-                    <CardTitle className="text-xl">
+                    <CardTitle className="text-2xl group-hover:text-primary transition-colors">
                       {event.title[locale]}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-2 mb-4">
+                    <div className="space-y-3 mb-6">
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Calendar className="h-4 w-4" />
+                        <Calendar className="h-4 w-4 text-primary" />
                         {new Date(event.start_at).toLocaleDateString(locale === "ar" ? "ar-YE" : "en-US", {
                           year: "numeric",
                           month: "long",
@@ -558,12 +570,12 @@ const Index = () => {
                       </div>
                       {event.city && (
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                          <Users className="h-4 w-4" />
+                          <Users className="h-4 w-4 text-primary" />
                           {event.city[locale]}
                         </div>
                       )}
                     </div>
-                    <Button variant="link" asChild className="p-0">
+                    <Button variant="link" asChild className="p-0 text-primary font-semibold group-hover:translate-x-1 transition-transform">
                       <Link to={`/${locale}/events/${event.slug}`}>
                         {locale === "ar" ? "التفاصيل" : "Details"} →
                       </Link>
@@ -571,6 +583,14 @@ const Index = () => {
                   </CardContent>
                 </AnimatedCard>
               ))}
+            </div>
+            
+            <div className="flex justify-center md:hidden">
+              <Button variant="outline" size="lg" asChild className="border-2">
+                <Link to={`/${locale}/events`}>
+                  {locale === "ar" ? "عرض جميع الفعاليات" : "View All Events"} →
+                </Link>
+              </Button>
             </div>
           </div>
         </section>
