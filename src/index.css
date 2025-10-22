@@ -113,6 +113,22 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
   
+  /* Arabic Typography */
+  [dir="rtl"] {
+    direction: rtl;
+    font-family: 'Cairo', sans-serif;
+  }
+  
+  [dir="rtl"] h1,
+  [dir="rtl"] h2,
+  [dir="rtl"] h3,
+  [dir="rtl"] h4,
+  [dir="rtl"] h5,
+  [dir="rtl"] h6 {
+    font-weight: 700;
+    letter-spacing: normal;
+  }
+  
   /* Typography improvements */
   h1, h2, h3, h4, h5, h6 {
     @apply font-bold tracking-tight;
