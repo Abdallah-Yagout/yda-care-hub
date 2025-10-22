@@ -11,6 +11,7 @@ import { motion } from "framer-motion";
 import { AnimatedCard } from "@/components/AnimatedCard";
 import { CountUpNumber } from "@/components/CountUpNumber";
 import { Target, Eye, Heart, Users, Activity, TrendingUp, Calendar } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import heroImage from "@/assets/hero-diabetes-care.jpg";
 
 interface Block {
@@ -26,11 +27,38 @@ interface KPI {
   year?: number;
 }
 
+interface Program {
+  id: string;
+  slug: string;
+  title: any;
+  summary?: any;
+  icon?: string;
+}
+
+interface Event {
+  id: string;
+  slug: string;
+  title: any;
+  city?: any;
+  start_at: string;
+}
+
+interface Post {
+  id: string;
+  slug: string;
+  title: any;
+  excerpt?: any;
+  type: string;
+}
+
 const Index = () => {
   const { locale } = useLocale();
   const { t } = useTranslation();
   const [blocks, setBlocks] = useState<Block[]>([]);
   const [kpis, setKPIs] = useState<KPI[]>([]);
+  const [programs, setPrograms] = useState<Program[]>([]);
+  const [events, setEvents] = useState<Event[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -63,6 +91,37 @@ const Index = () => {
         .order("key");
 
       if (kpisData) setKPIs(kpisData);
+
+      // Fetch featured programs (limit 3)
+      const { data: programsData } = await supabase
+        .from("program")
+        .select("id, slug, title, summary, icon")
+        .eq("status", "published")
+        .order("created_at", { ascending: false })
+        .limit(3);
+
+      if (programsData) setPrograms(programsData);
+
+      // Fetch upcoming events (limit 3)
+      const { data: eventsData } = await supabase
+        .from("event")
+        .select("id, slug, title, city, start_at")
+        .eq("status", "published")
+        .gte("start_at", new Date().toISOString())
+        .order("start_at", { ascending: true })
+        .limit(3);
+
+      if (eventsData) setEvents(eventsData);
+
+      // Fetch recent resources (limit 3)
+      const { data: postsData } = await supabase
+        .from("post")
+        .select("id, slug, title, excerpt, type")
+        .eq("status", "published")
+        .order("published_at", { ascending: false })
+        .limit(3);
+
+      if (postsData) setPosts(postsData);
     } catch (error) {
       console.error("Error loading home data:", error);
     } finally {
@@ -352,6 +411,146 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Programs Preview */}
+      {programs.length > 0 && (
+        <section className="py-16 bg-muted/50">
+          <div className="container">
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-3xl font-bold">
+                {locale === "ar" ? "برامجنا" : "Our Programs"}
+              </h2>
+              <Button variant="outline" asChild>
+                <Link to={`/${locale}/programs`}>
+                  {locale === "ar" ? "عرض الكل" : "View All"}
+                </Link>
+              </Button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {programs.map((program, index) => (
+                <AnimatedCard key={program.id} delay={index * 0.1}>
+                  <CardHeader>
+                    <div className="flex items-center gap-3 mb-2">
+                      {program.icon && <span className="text-3xl">{program.icon}</span>}
+                      <CardTitle className="text-xl">
+                        {program.title[locale]}
+                      </CardTitle>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground line-clamp-3 mb-4">
+                      {program.summary?.[locale]}
+                    </p>
+                    <Button variant="link" asChild className="p-0">
+                      <Link to={`/${locale}/programs/${program.slug}`}>
+                        {locale === "ar" ? "اقرأ المزيد" : "Learn More"} →
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </AnimatedCard>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Events Preview */}
+      {events.length > 0 && (
+        <section className="py-16">
+          <div className="container">
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-3xl font-bold">
+                {locale === "ar" ? "الفعاليات القادمة" : "Upcoming Events"}
+              </h2>
+              <Button variant="outline" asChild>
+                <Link to={`/${locale}/events`}>
+                  {locale === "ar" ? "عرض الكل" : "View All"}
+                </Link>
+              </Button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {events.map((event, index) => (
+                <AnimatedCard key={event.id} delay={index * 0.1}>
+                  <CardHeader>
+                    <CardTitle className="text-xl">
+                      {event.title[locale]}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2 mb-4">
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <Calendar className="h-4 w-4" />
+                        {new Date(event.start_at).toLocaleDateString(locale === "ar" ? "ar-YE" : "en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric"
+                        })}
+                      </div>
+                      {event.city && (
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <Users className="h-4 w-4" />
+                          {event.city[locale]}
+                        </div>
+                      )}
+                    </div>
+                    <Button variant="link" asChild className="p-0">
+                      <Link to={`/${locale}/events/${event.slug}`}>
+                        {locale === "ar" ? "التفاصيل" : "Details"} →
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </AnimatedCard>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Resources Preview */}
+      {posts.length > 0 && (
+        <section className="py-16 bg-muted/50">
+          <div className="container">
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-3xl font-bold">
+                {locale === "ar" ? "أحدث الموارد" : "Latest Resources"}
+              </h2>
+              <Button variant="outline" asChild>
+                <Link to={`/${locale}/resources`}>
+                  {locale === "ar" ? "عرض الكل" : "View All"}
+                </Link>
+              </Button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {posts.map((post, index) => (
+                <AnimatedCard key={post.id} delay={index * 0.1}>
+                  <CardHeader>
+                    <div className="flex items-center gap-2 mb-2">
+                      <Badge variant="secondary" className="text-xs">
+                        {post.type === "article" && (locale === "ar" ? "مقال" : "Article")}
+                        {post.type === "guide" && (locale === "ar" ? "دليل" : "Guide")}
+                        {post.type === "news" && (locale === "ar" ? "أخبار" : "News")}
+                      </Badge>
+                    </div>
+                    <CardTitle className="text-xl">
+                      {post.title[locale]}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground line-clamp-3 mb-4">
+                      {post.excerpt?.[locale]}
+                    </p>
+                    <Button variant="link" asChild className="p-0">
+                      <Link to={`/${locale}/resources/${post.slug}`}>
+                        {locale === "ar" ? "اقرأ المزيد" : "Read More"} →
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </AnimatedCard>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* CTA */}
       <motion.section
