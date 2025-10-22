@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, Routes, Route, Link, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   LayoutDashboard,
   FileText,
@@ -71,7 +72,33 @@ const AdminDashboard = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        Loading...
+        <div className="text-center">
+          <p className="text-lg">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!role) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Card className="max-w-md">
+          <CardHeader>
+            <CardTitle>No Role Assigned</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-muted-foreground">
+              Your account doesn't have an assigned role yet. Please contact a
+              SuperAdmin to assign you a role.
+            </p>
+            <p className="text-sm">
+              <strong>Your email:</strong> {user?.email}
+            </p>
+            <Button onClick={handleLogout} variant="outline" className="w-full">
+              Logout
+            </Button>
+          </CardContent>
+        </Card>
       </div>
     );
   }

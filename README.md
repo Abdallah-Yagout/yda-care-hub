@@ -1,73 +1,79 @@
-# Welcome to your Lovable project
+# Yemen Diabetes Association (YDA) - Bilingual Website + CMS
 
-## Project info
+A full-featured bilingual (Arabic/English) website with complete admin CMS for the Yemen Diabetes Association.
 
 **URL**: https://lovable.dev/projects/9d48099a-c55c-4ddf-ad78-663cc1c7c65f
 
-## How can I edit this code?
+## Tech Stack
 
-There are several ways of editing your application.
+- **Frontend**: React 18 + Vite + TypeScript
+- **Routing**: React Router v6 with locale-aware routes (/ar/*, /en/*)
+- **UI**: TailwindCSS + Radix UI (shadcn/ui)
+- **Backend**: Lovable Cloud (Supabase)
+- **i18n**: i18next + react-i18next
+- **Forms**: React Hook Form + Zod
+- **Date handling**: date-fns
 
-**Use Lovable**
+## Features
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/9d48099a-c55c-4ddf-ad78-663cc1c7c65f) and start prompting.
+### Public Website
+- ✅ Bilingual Support (Arabic RTL / English LTR)
+- ✅ Home Page with hero, mission/vision/values, KPIs
+- ✅ Events list with filters + detail with registration & Add-to-Calendar
+- ✅ Programs showcase
+- ✅ Resources/Blog with search
+- ✅ Contact form
+- ✅ Get Involved (Volunteer/Donate/Partner)
 
-Changes made via Lovable will be committed automatically to this repo.
+### Admin CMS
+- ✅ Email/password authentication
+- ✅ Role-based access (SUPERADMIN, EDITOR, VIEWER)
+- ✅ Dashboard with statistics
+- ✅ Events, Programs, Posts management
+- ✅ Form submissions viewer
+- ✅ Settings management
 
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+## Quick Start
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Install dependencies
+npm install
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Run development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Visit `http://localhost:8080/ar` for Arabic or `http://localhost:8080/en` for English.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## First Admin User
 
-**Use GitHub Codespaces**
+1. Navigate to `/admin/login`
+2. Click "Sign Up" and create an account
+3. **The first user automatically becomes SUPERADMIN**
+4. Subsequent users need role assignment
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Database Schema
 
-## What technologies are used for this project?
+Content uses bilingual JSONB fields (`{"ar": "...", "en": "..."}`):
 
-This project is built with:
+- `page` + `block` - Pages with content blocks
+- `event` - Events with registration
+- `program` - YDA programs  
+- `post` - Blog articles
+- `kpi` - Key performance indicators
+- `submission` - Form submissions
+- `user_roles` - Access control
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Deployment
 
-## How can I deploy this project?
+Click **Share → Publish** in Lovable to deploy your site.
 
-Simply open [Lovable](https://lovable.dev/projects/9d48099a-c55c-4ddf-ad78-663cc1c7c65f) and click on Share -> Publish.
+## Custom Domain
 
-## Can I connect a custom domain to my Lovable project?
+Navigate to **Project > Settings > Domains** to connect your domain.
 
-Yes, you can!
+[Read more](https://docs.lovable.dev/features/custom-domain)
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+---
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+© 2024 Yemen Diabetes Association. Built with Lovable.
