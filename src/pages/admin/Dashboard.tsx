@@ -39,12 +39,15 @@ const AdminDashboard = () => {
   const location = useLocation();
 
   useEffect(() => {
+    console.log('[Admin Dashboard] Component mounted, checking auth...');
     checkUser();
 
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        console.log('[Admin Dashboard] Auth state changed:', event, session?.user?.email);
         if (event === 'SIGNED_OUT' || !session) {
+          console.log('[Admin Dashboard] No session, redirecting to login');
           navigate("/admin/login");
         } else if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
           setUser(session.user);
@@ -56,6 +59,7 @@ const AdminDashboard = () => {
             .eq("user_id", session.user.id)
             .maybeSingle();
           
+          console.log('[Admin Dashboard] User role:', roleData?.role);
           setRole(roleData?.role || null);
           setLoading(false);
         }
@@ -73,7 +77,10 @@ const AdminDashboard = () => {
         data: { session },
       } = await supabase.auth.getSession();
 
+      console.log('[Admin Dashboard] Session check:', session?.user?.email);
+
       if (!session) {
+        console.log('[Admin Dashboard] No session found, redirecting to login');
         navigate("/admin/login");
         return;
       }
@@ -87,9 +94,10 @@ const AdminDashboard = () => {
         .eq("user_id", session.user.id)
         .maybeSingle();
 
+      console.log('[Admin Dashboard] User role loaded:', roleData?.role);
       setRole(roleData?.role || null);
     } catch (error) {
-      console.error("Auth check error:", error);
+      console.error("[Admin Dashboard] Auth check error:", error);
       navigate("/admin/login");
     } finally {
       setLoading(false);
