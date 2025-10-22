@@ -3,9 +3,9 @@ import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 
-const Index = () => {
+const GetInvolved = () => {
   const { locale } = useParams<{ locale: string }>();
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   useEffect(() => {
     if (locale && i18n.language !== locale) {
@@ -16,16 +16,14 @@ const Index = () => {
   return (
     <>
       <Helmet>
-        <title>Yemen Diabetes Association | YDA</title>
-        <meta name="description" content="Working together for a future free from diabetes complications in Yemen" />
+        <title>{t('nav.getInvolved')} | YDA</title>
       </Helmet>
       
-      <div className="min-h-screen">
-        <h1 className="text-4xl font-bold p-8">Yemen Diabetes Association</h1>
-        <p className="px-8">Homepage - Building in progress...</p>
+      <div className="min-h-screen p-8">
+        <h1 className="text-4xl font-bold">{t('nav.getInvolved')}</h1>
       </div>
     </>
   );
 };
 
-export default Index;
+export default GetInvolved;

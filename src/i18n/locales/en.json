@@ -1,0 +1,91 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "search": "Search",
+    "filter": "Filter",
+    "viewAll": "View All",
+    "readMore": "Read More",
+    "learnMore": "Learn More"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "programs": "Programs",
+    "events": "Events",
+    "resources": "Resources",
+    "getInvolved": "Get Involved",
+    "contact": "Contact",
+    "admin": "Admin"
+  },
+  "hero": {
+    "title": "Yemen Diabetes Association",
+    "subtitle": "Working together for a future free from diabetes complications in Yemen",
+    "cta1": "Book Screening",
+    "cta2": "Volunteer",
+    "cta3": "Donate Now"
+  },
+  "home": {
+    "mission": "Our Mission",
+    "vision": "Our Vision",
+    "values": "Our Values",
+    "kpis": "Statistics",
+    "programs": "Our Programs",
+    "events": "Upcoming Events",
+    "resources": "Featured Resources",
+    "cta": "Join Us Today"
+  },
+  "events": {
+    "title": "Events",
+    "upcoming": "Upcoming",
+    "past": "Past",
+    "filterByCity": "Filter by City",
+    "filterByMonth": "Filter by Month",
+    "capacity": "Capacity",
+    "venue": "Venue",
+    "register": "Register",
+    "addToCalendar": "Add to Calendar",
+    "registered": "Successfully Registered"
+  },
+  "programs": {
+    "title": "Our Programs",
+    "awareness": "Awareness",
+    "screening": "Early Screening",
+    "education": "Health Education",
+    "support": "Support & Care"
+  },
+  "resources": {
+    "title": "Resources",
+    "latest": "Latest Articles",
+    "categories": "Categories"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "send": "Send",
+    "success": "Your message has been sent successfully"
+  },
+  "admin": {
+    "login": "Login",
+    "logout": "Logout",
+    "dashboard": "Dashboard",
+    "pages": "Pages",
+    "blocks": "Blocks",
+    "kpis": "KPIs",
+    "events": "Events",
+    "programs": "Programs",
+    "posts": "Posts",
+    "partners": "Partners",
+    "menus": "Menus",
+    "settings": "Settings",
+    "users": "Users",
+    "submissions": "Submissions"
+  }
+}
