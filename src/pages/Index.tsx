@@ -175,7 +175,7 @@ const Index = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className="relative overflow-hidden h-[600px] md:h-[700px]"
+        className="relative overflow-hidden min-h-[85vh] flex items-center"
       >
         {/* Background Image with Overlay */}
         <div className="absolute inset-0">
@@ -184,47 +184,60 @@ const Index = () => {
             alt="Diabetes care in Yemen"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/60" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background/98 via-background/85 to-background/40" />
         </div>
 
         {/* Content */}
-        <div className="container relative h-full flex items-center">
-          <div className="max-w-2xl">
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-4xl md:text-6xl font-bold mb-6"
-            >
-              {hero?.title?.[locale] || t("hero.title")}
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-xl md:text-2xl text-muted-foreground mb-8"
-            >
-              {hero?.content?.[locale] || t("hero.subtitle")}
-            </motion.p>
+        <div className="container relative py-20">
+          <div className="max-w-3xl">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="inline-block px-4 py-2 mb-6 rounded-full bg-primary/10 border border-primary/20"
+            >
+              <span className="text-sm font-medium text-primary">
+                {locale === "ar" ? "معاً نحو مستقبل أفضل" : "Together for a Better Future"}
+              </span>
+            </motion.div>
+            
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="text-5xl md:text-7xl font-bold mb-6 leading-tight bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text"
+            >
+              {hero?.title?.[locale] || t("hero.title")}
+            </motion.h1>
+            
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
+              className="text-xl md:text-2xl text-muted-foreground mb-10 leading-relaxed"
+            >
+              {hero?.content?.[locale] || t("hero.subtitle")}
+            </motion.p>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
               className="flex flex-wrap gap-4"
             >
-              <Button size="lg" asChild className="shadow-lg">
+              <Button size="lg" asChild className="shadow-lg hover:shadow-xl transition-shadow">
                 <Link to={`/${locale}/events`}>
                   <Calendar className="mr-2 h-5 w-5" />
                   {t("hero.cta1")}
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" asChild>
+              <Button size="lg" variant="outline" asChild className="border-2 hover:bg-background/50 backdrop-blur">
                 <Link to={`/${locale}/get-involved`}>
                   <Users className="mr-2 h-5 w-5" />
                   {t("hero.cta2")}
                 </Link>
               </Button>
-              <Button size="lg" variant="secondary" asChild>
+              <Button size="lg" variant="secondary" asChild className="shadow-md hover:shadow-lg transition-shadow">
                 <Link to={`/${locale}/contact`}>
                   <Heart className="mr-2 h-5 w-5" />
                   {t("hero.cta3")}
@@ -236,51 +249,67 @@ const Index = () => {
       </motion.section>
 
       {/* Mission, Vision, Values */}
-      <section className="py-16 bg-muted/50">
+      <section className="py-24 bg-gradient-to-b from-background to-muted/30">
         <div className="container">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              {locale === "ar" ? "من نحن" : "Who We Are"}
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              {locale === "ar" 
+                ? "رؤيتنا ورسالتنا وقيمنا في خدمة مجتمعنا"
+                : "Our vision, mission, and values in serving our community"}
+            </p>
+          </motion.div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {mission && (
-              <AnimatedCard delay={0}>
+              <AnimatedCard delay={0} className="group hover:shadow-xl transition-all duration-300 border-t-4 border-t-primary">
                 <CardHeader>
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="p-3 rounded-lg bg-primary/10">
-                      <Target className="h-6 w-6 text-primary" />
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="p-4 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 group-hover:from-primary/30 group-hover:to-primary/10 transition-all">
+                      <Target className="h-7 w-7 text-primary" />
                     </div>
-                    <CardTitle>{mission.title[locale]}</CardTitle>
+                    <CardTitle className="text-2xl">{mission.title[locale]}</CardTitle>
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground">{mission.content[locale]}</p>
+                  <p className="text-muted-foreground leading-relaxed">{mission.content[locale]}</p>
                 </CardContent>
               </AnimatedCard>
             )}
             {vision && (
-              <AnimatedCard delay={0.1}>
+              <AnimatedCard delay={0.1} className="group hover:shadow-xl transition-all duration-300 border-t-4 border-t-primary">
                 <CardHeader>
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="p-3 rounded-lg bg-primary/10">
-                      <Eye className="h-6 w-6 text-primary" />
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="p-4 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 group-hover:from-primary/30 group-hover:to-primary/10 transition-all">
+                      <Eye className="h-7 w-7 text-primary" />
                     </div>
-                    <CardTitle>{vision.title[locale]}</CardTitle>
+                    <CardTitle className="text-2xl">{vision.title[locale]}</CardTitle>
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground">{vision.content[locale]}</p>
+                  <p className="text-muted-foreground leading-relaxed">{vision.content[locale]}</p>
                 </CardContent>
               </AnimatedCard>
             )}
             {values && (
-              <AnimatedCard delay={0.2}>
+              <AnimatedCard delay={0.2} className="group hover:shadow-xl transition-all duration-300 border-t-4 border-t-primary">
                 <CardHeader>
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="p-3 rounded-lg bg-primary/10">
-                      <Heart className="h-6 w-6 text-primary" />
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="p-4 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 group-hover:from-primary/30 group-hover:to-primary/10 transition-all">
+                      <Heart className="h-7 w-7 text-primary" />
                     </div>
-                    <CardTitle>{values.title[locale]}</CardTitle>
+                    <CardTitle className="text-2xl">{values.title[locale]}</CardTitle>
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground">{values.content[locale]}</p>
+                  <p className="text-muted-foreground leading-relaxed">{values.content[locale]}</p>
                 </CardContent>
               </AnimatedCard>
             )}
@@ -289,34 +318,58 @@ const Index = () => {
       </section>
 
       {/* Video Section */}
-      <section className="py-16 bg-background">
-        <div className="container">
+      <section className="py-24 bg-background relative overflow-hidden">
+        {/* Decorative background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5 pointer-events-none" />
+        
+        <div className="container relative">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto"
+            className="max-w-5xl mx-auto"
           >
-            <div className="text-center mb-8">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <div className="text-center mb-12">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="inline-block px-4 py-2 mb-4 rounded-full bg-primary/10 border border-primary/20"
+              >
+                <span className="text-sm font-medium text-primary">
+                  {locale === "ar" ? "فيديو" : "Video"}
+                </span>
+              </motion.div>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">
                 {locale === "ar" ? "شاهد قصتنا" : "Watch Our Story"}
               </h2>
-              <p className="text-lg text-muted-foreground">
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                 {locale === "ar" 
                   ? "تعرف على رؤيتنا ورسالتنا في مكافحة السكري في اليمن"
                   : "Learn about our vision and mission in fighting diabetes in Yemen"}
               </p>
             </div>
-            <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-2xl">
-              <iframe
-                className="absolute inset-0 w-full h-full"
-                src="https://www.youtube.com/embed/F_GZYEtKaa0"
-                title="Yemen Diabetes Association Video"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            </div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="relative group"
+            >
+              <div className="absolute -inset-1 bg-gradient-to-r from-primary to-primary/50 rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-500" />
+              <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-2xl ring-1 ring-black/5">
+                <iframe
+                  className="absolute inset-0 w-full h-full"
+                  src="https://www.youtube.com/embed/F_GZYEtKaa0"
+                  title="Yemen Diabetes Association Video"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            </motion.div>
           </motion.div>
         </div>
       </section>
@@ -414,34 +467,44 @@ const Index = () => {
 
       {/* Programs Preview */}
       {programs.length > 0 && (
-        <section className="py-16 bg-muted/50">
+        <section className="py-24 bg-gradient-to-b from-background to-muted/30">
           <div className="container">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-3xl font-bold">
-                {locale === "ar" ? "برامجنا" : "Our Programs"}
-              </h2>
-              <Button variant="outline" asChild>
+            <div className="flex items-center justify-between mb-12">
+              <div>
+                <h2 className="text-4xl md:text-5xl font-bold mb-3">
+                  {locale === "ar" ? "برامجنا" : "Our Programs"}
+                </h2>
+                <p className="text-lg text-muted-foreground">
+                  {locale === "ar" ? "نقدم برامج شاملة لدعم مرضى السكري" : "Comprehensive programs to support diabetes patients"}
+                </p>
+              </div>
+              <Button variant="outline" size="lg" asChild className="hidden md:flex border-2 hover:shadow-md">
                 <Link to={`/${locale}/programs`}>
-                  {locale === "ar" ? "عرض الكل" : "View All"}
+                  {locale === "ar" ? "عرض الكل" : "View All"} →
                 </Link>
               </Button>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
               {programs.map((program, index) => (
-                <AnimatedCard key={program.id} delay={index * 0.1}>
+                <AnimatedCard key={program.id} delay={index * 0.1} className="group hover:shadow-2xl transition-all duration-300 border-0 bg-gradient-to-br from-card to-card/80">
                   <CardHeader>
-                    <div className="flex items-center gap-3 mb-2">
-                      {program.icon && <span className="text-3xl">{program.icon}</span>}
-                      <CardTitle className="text-xl">
+                    <div className="flex items-center gap-4 mb-3">
+                      {program.icon && (
+                        <div className="p-3 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 text-4xl">
+                          {program.icon}
+                        </div>
+                      )}
+                      <CardTitle className="text-2xl group-hover:text-primary transition-colors">
                         {program.title[locale]}
                       </CardTitle>
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground line-clamp-3 mb-4">
+                    <p className="text-muted-foreground line-clamp-3 mb-6 leading-relaxed">
                       {program.summary?.[locale]}
                     </p>
-                    <Button variant="link" asChild className="p-0">
+                    <Button variant="link" asChild className="p-0 text-primary font-semibold group-hover:translate-x-1 transition-transform">
                       <Link to={`/${locale}/programs/${program.slug}`}>
                         {locale === "ar" ? "اقرأ المزيد" : "Learn More"} →
                       </Link>
@@ -449,6 +512,14 @@ const Index = () => {
                   </CardContent>
                 </AnimatedCard>
               ))}
+            </div>
+            
+            <div className="flex justify-center md:hidden">
+              <Button variant="outline" size="lg" asChild className="border-2">
+                <Link to={`/${locale}/programs`}>
+                  {locale === "ar" ? "عرض جميع البرامج" : "View All Programs"} →
+                </Link>
+              </Button>
             </div>
           </div>
         </section>
@@ -508,38 +579,44 @@ const Index = () => {
 
       {/* Resources Preview */}
       {posts.length > 0 && (
-        <section className="py-16 bg-muted/50">
+        <section className="py-24 bg-gradient-to-b from-muted/30 to-background">
           <div className="container">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-3xl font-bold">
-                {locale === "ar" ? "أحدث الموارد" : "Latest Resources"}
-              </h2>
-              <Button variant="outline" asChild>
+            <div className="flex items-center justify-between mb-12">
+              <div>
+                <h2 className="text-4xl md:text-5xl font-bold mb-3">
+                  {locale === "ar" ? "أحدث الموارد" : "Latest Resources"}
+                </h2>
+                <p className="text-lg text-muted-foreground">
+                  {locale === "ar" ? "مقالات وأدلة وأخبار لدعمك" : "Articles, guides, and news to support you"}
+                </p>
+              </div>
+              <Button variant="outline" size="lg" asChild className="hidden md:flex border-2 hover:shadow-md">
                 <Link to={`/${locale}/resources`}>
-                  {locale === "ar" ? "عرض الكل" : "View All"}
+                  {locale === "ar" ? "عرض الكل" : "View All"} →
                 </Link>
               </Button>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
               {posts.map((post, index) => (
-                <AnimatedCard key={post.id} delay={index * 0.1}>
+                <AnimatedCard key={post.id} delay={index * 0.1} className="group hover:shadow-2xl transition-all duration-300 border-0 bg-gradient-to-br from-card to-card/80">
                   <CardHeader>
-                    <div className="flex items-center gap-2 mb-2">
-                      <Badge variant="secondary" className="text-xs">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Badge variant="secondary" className="text-xs px-3 py-1">
                         {post.type === "article" && (locale === "ar" ? "مقال" : "Article")}
                         {post.type === "guide" && (locale === "ar" ? "دليل" : "Guide")}
                         {post.type === "news" && (locale === "ar" ? "أخبار" : "News")}
                       </Badge>
                     </div>
-                    <CardTitle className="text-xl">
+                    <CardTitle className="text-2xl group-hover:text-primary transition-colors">
                       {post.title[locale]}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground line-clamp-3 mb-4">
+                    <p className="text-muted-foreground line-clamp-3 mb-6 leading-relaxed">
                       {post.excerpt?.[locale]}
                     </p>
-                    <Button variant="link" asChild className="p-0">
+                    <Button variant="link" asChild className="p-0 text-primary font-semibold group-hover:translate-x-1 transition-transform">
                       <Link to={`/${locale}/resources/${post.slug}`}>
                         {locale === "ar" ? "اقرأ المزيد" : "Read More"} →
                       </Link>
@@ -547,6 +624,14 @@ const Index = () => {
                   </CardContent>
                 </AnimatedCard>
               ))}
+            </div>
+            
+            <div className="flex justify-center md:hidden">
+              <Button variant="outline" size="lg" asChild className="border-2">
+                <Link to={`/${locale}/resources`}>
+                  {locale === "ar" ? "عرض جميع الموارد" : "View All Resources"} →
+                </Link>
+              </Button>
             </div>
           </div>
         </section>
