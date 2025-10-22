@@ -175,7 +175,7 @@ const Index = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className="relative overflow-hidden min-h-[85vh] flex items-center"
+        className="relative overflow-hidden min-h-[90vh] flex items-center"
       >
         {/* Background Image with Overlay */}
         <div className="absolute inset-0">
@@ -184,28 +184,27 @@ const Index = () => {
             alt="Diabetes care in Yemen"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-background/98 via-background/85 to-background/40" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/30" />
         </div>
 
         {/* Content */}
-        <div className="container relative py-20">
+        <div className="container relative py-24">
           <div className="max-w-3xl">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="inline-block px-4 py-2 mb-6 rounded-full bg-primary/10 border border-primary/20"
             >
-              <span className="text-sm font-medium text-primary">
+              <Badge variant="outline" className="mb-6 px-4 py-2 text-sm font-medium border-primary/30 bg-primary/5">
                 {locale === "ar" ? "معاً نحو مستقبل أفضل" : "Together for a Better Future"}
-              </span>
+              </Badge>
             </motion.div>
             
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-5xl md:text-7xl font-bold mb-6 leading-tight bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text"
+              className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
             >
               {hero?.title?.[locale] || t("hero.title")}
             </motion.h1>
@@ -214,7 +213,7 @@ const Index = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-xl md:text-2xl text-muted-foreground mb-10 leading-relaxed"
+              className="text-xl md:text-2xl text-muted-foreground mb-10 leading-relaxed max-w-2xl"
             >
               {hero?.content?.[locale] || t("hero.subtitle")}
             </motion.p>
@@ -225,21 +224,21 @@ const Index = () => {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="flex flex-wrap gap-4"
             >
-              <Button size="lg" asChild className="shadow-lg hover:shadow-xl transition-shadow">
+              <Button size="lg" asChild className="shadow-lg hover:shadow-xl transition-all">
                 <Link to={`/${locale}/events`}>
-                  <Calendar className="mr-2 h-5 w-5" />
+                  <Calendar className={locale === "ar" ? "ml-2 h-5 w-5" : "mr-2 h-5 w-5"} />
                   {t("hero.cta1")}
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" asChild className="border-2 hover:bg-background/50 backdrop-blur">
+              <Button size="lg" variant="outline" asChild className="border-2 backdrop-blur-sm">
                 <Link to={`/${locale}/get-involved`}>
-                  <Users className="mr-2 h-5 w-5" />
+                  <Users className={locale === "ar" ? "ml-2 h-5 w-5" : "mr-2 h-5 w-5"} />
                   {t("hero.cta2")}
                 </Link>
               </Button>
-              <Button size="lg" variant="secondary" asChild className="shadow-md hover:shadow-lg transition-shadow">
+              <Button size="lg" variant="secondary" asChild className="shadow-md hover:shadow-lg transition-all">
                 <Link to={`/${locale}/contact`}>
-                  <Heart className="mr-2 h-5 w-5" />
+                  <Heart className={locale === "ar" ? "ml-2 h-5 w-5" : "mr-2 h-5 w-5"} />
                   {t("hero.cta3")}
                 </Link>
               </Button>
