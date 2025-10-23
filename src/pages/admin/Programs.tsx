@@ -15,7 +15,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Plus, Search, Loader2, Edit, Trash2 } from "lucide-react";
+import { Plus, Search, Loader2, Edit, Trash2, BookOpen } from "lucide-react";
 
 const AdminPrograms = () => {
   const navigate = useNavigate();
@@ -42,62 +42,81 @@ const AdminPrograms = () => {
   };
 
   return (
-    <div>
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Programs Management</h1>
-        <Button onClick={() => navigate('/admin/programs/new')}>
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Programs Management</h1>
+          <p className="text-muted-foreground mt-1">Create and manage your programs</p>
+        </div>
+        <Button onClick={() => navigate('/admin/programs/new')} className="w-full sm:w-auto">
           <Plus className="h-4 w-4 mr-2" />
           Add Program
         </Button>
       </div>
 
       {/* Search */}
-      <div className="mb-6">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Search programs..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-9"
-          />
-        </div>
-      </div>
+      <Card>
+        <CardContent className="pt-6">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search programs by title or slug..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9"
+            />
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Programs List */}
       {isLoading ? (
         <div className="flex items-center justify-center h-64">
-          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          <div className="flex flex-col items-center gap-2">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <p className="text-sm text-muted-foreground">Loading programs...</p>
+          </div>
         </div>
       ) : filteredPrograms && filteredPrograms.length > 0 ? (
         <div className="grid gap-4">
           {filteredPrograms.map((program) => (
-            <Card key={program.id} className="hover:shadow-md transition-shadow">
+            <Card key={program.id} className="hover-lift">
               <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      {program.icon && <span className="text-2xl">{program.icon}</span>}
-                      <CardTitle>
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-3 mb-3">
+                      {program.icon && (
+                        <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center text-xl">
+                          {program.icon}
+                        </div>
+                      )}
+                      <CardTitle className="text-lg">
                         {program.title.ar} / {program.title.en}
                       </CardTitle>
                     </div>
-                    <p className="text-sm text-muted-foreground">
-                      Slug: {program.slug}
-                    </p>
-                    {program.summary?.en && (
-                      <p className="text-sm text-muted-foreground mt-2 line-clamp-2">
-                        {program.summary.en}
+                    <div className="space-y-2">
+                      <p className="text-sm text-muted-foreground flex items-center gap-2">
+                        <span className="font-medium">Slug:</span>
+                        <code className="px-2 py-1 bg-muted rounded text-xs">{program.slug}</code>
                       </p>
-                    )}
+                      {program.summary?.en && (
+                        <p className="text-sm text-muted-foreground line-clamp-2">
+                          {program.summary.en}
+                        </p>
+                      )}
+                    </div>
                   </div>
-                  <Badge variant={program.status === "published" ? "default" : "secondary"}>
+                  <Badge 
+                    variant={program.status === "published" ? "default" : "secondary"}
+                    className="shrink-0"
+                  >
                     {program.status}
                   </Badge>
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   <Button
                     size="sm"
                     variant="outline"
@@ -121,9 +140,17 @@ const AdminPrograms = () => {
         </div>
       ) : (
         <Card>
-          <CardContent className="flex flex-col items-center justify-center py-12">
-            <p className="text-muted-foreground mb-4">
-              {searchQuery ? 'No programs found matching your search.' : 'No programs yet.'}
+          <CardContent className="flex flex-col items-center justify-center py-16">
+            <div className="h-16 w-16 rounded-full bg-muted flex items-center justify-center mb-4">
+              <BookOpen className="h-8 w-8 text-muted-foreground" />
+            </div>
+            <h3 className="text-lg font-semibold mb-2">
+              {searchQuery ? 'No programs found' : 'No programs yet'}
+            </h3>
+            <p className="text-muted-foreground text-center mb-6 max-w-sm">
+              {searchQuery 
+                ? 'Try adjusting your search terms' 
+                : 'Get started by creating your first program'}
             </p>
             {!searchQuery && (
               <Button onClick={() => navigate('/admin/programs/new')}>

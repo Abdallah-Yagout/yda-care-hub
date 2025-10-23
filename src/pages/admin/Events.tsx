@@ -41,53 +41,71 @@ const AdminEvents = () => {
   };
 
   return (
-    <div>
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Events Management</h1>
-        <Button>
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Events Management</h1>
+          <p className="text-muted-foreground mt-1">Create and manage your events</p>
+        </div>
+        <Button className="w-full sm:w-auto">
           <Plus className="h-4 w-4 mr-2" />
           Add Event
         </Button>
       </div>
 
       {loading ? (
-        <p>Loading...</p>
-      ) : (
+        <div className="flex items-center justify-center h-64">
+          <div className="flex flex-col items-center gap-2">
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-r-transparent" />
+            <p className="text-sm text-muted-foreground">Loading events...</p>
+          </div>
+        </div>
+      ) : events.length > 0 ? (
         <div className="grid gap-4">
           {events.map((event) => (
-            <Card key={event.id}>
+            <Card key={event.id} className="hover-lift">
               <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <CardTitle className="mb-2">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1 min-w-0">
+                    <CardTitle className="mb-3 text-lg">
                       {event.title?.ar} / {event.title?.en}
                     </CardTitle>
                     <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-                      <div className="flex items-center gap-1">
-                        <Calendar className="h-4 w-4" />
-                        {format(new Date(event.start_at), "PPP")}
+                      <div className="flex items-center gap-2">
+                        <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                          <Calendar className="h-4 w-4 text-primary" />
+                        </div>
+                        <span>{format(new Date(event.start_at), "PPP")}</span>
                       </div>
                       {event.city?.ar && (
-                        <div className="flex items-center gap-1">
-                          <MapPin className="h-4 w-4" />
-                          {event.city.ar} / {event.city.en}
+                        <div className="flex items-center gap-2">
+                          <div className="h-8 w-8 rounded-lg bg-accent/10 flex items-center justify-center">
+                            <MapPin className="h-4 w-4 text-accent" />
+                          </div>
+                          <span>{event.city.ar} / {event.city.en}</span>
                         </div>
                       )}
                       {event.capacity && (
-                        <div className="flex items-center gap-1">
-                          <Users className="h-4 w-4" />
-                          {event.capacity}
+                        <div className="flex items-center gap-2">
+                          <div className="h-8 w-8 rounded-lg bg-secondary/10 flex items-center justify-center">
+                            <Users className="h-4 w-4 text-secondary-foreground" />
+                          </div>
+                          <span>{event.capacity} attendees</span>
                         </div>
                       )}
                     </div>
                   </div>
-                  <Badge variant={event.status === "published" ? "default" : "secondary"}>
+                  <Badge 
+                    variant={event.status === "published" ? "default" : "secondary"}
+                    className="shrink-0"
+                  >
                     {event.status}
                   </Badge>
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   <Button size="sm" variant="outline">Edit</Button>
                   <Button size="sm" variant="outline">Preview</Button>
                   <Button size="sm" variant="outline">Delete</Button>
@@ -96,6 +114,22 @@ const AdminEvents = () => {
             </Card>
           ))}
         </div>
+      ) : (
+        <Card>
+          <CardContent className="flex flex-col items-center justify-center py-16">
+            <div className="h-16 w-16 rounded-full bg-muted flex items-center justify-center mb-4">
+              <Calendar className="h-8 w-8 text-muted-foreground" />
+            </div>
+            <h3 className="text-lg font-semibold mb-2">No events yet</h3>
+            <p className="text-muted-foreground text-center mb-6 max-w-sm">
+              Get started by creating your first event
+            </p>
+            <Button>
+              <Plus className="h-4 w-4 mr-2" />
+              Create First Event
+            </Button>
+          </CardContent>
+        </Card>
       )}
     </div>
   );

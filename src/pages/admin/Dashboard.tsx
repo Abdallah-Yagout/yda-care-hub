@@ -1,21 +1,10 @@
-import { useState } from "react";
-import { Routes, Route, Link, useLocation } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuthGuard } from "@/hooks/useAuthGuard";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  LayoutDashboard,
-  FileText,
-  Calendar,
-  BookOpen,
-  FileEdit,
-  Menu as MenuIcon,
-  Settings,
-  LogOut,
-  BarChart,
-  TrendingUp,
-} from "lucide-react";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/admin/AppSidebar";
 
 // Admin pages
 import AdminOverview from "./Overview";
@@ -30,8 +19,6 @@ import AdminSubmissions from "./Submissions";
 
 const AdminDashboard = () => {
   const { user, role, loading, isAuthenticated } = useAuthGuard(true);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const location = useLocation();
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -80,105 +67,47 @@ const AdminDashboard = () => {
     return null;
   }
 
-  const menuItems = [
-    { icon: LayoutDashboard, label: "Dashboard", path: "/admin", roles: ["SUPERADMIN", "EDITOR", "VIEWER"] },
-    { icon: FileText, label: "Pages", path: "/admin/pages", roles: ["SUPERADMIN", "EDITOR"] },
-    { icon: Calendar, label: "Events", path: "/admin/events", roles: ["SUPERADMIN", "EDITOR"] },
-    { icon: BookOpen, label: "Programs", path: "/admin/programs", roles: ["SUPERADMIN", "EDITOR"] },
-    { icon: FileEdit, label: "Blog Posts", path: "/admin/posts", roles: ["SUPERADMIN", "EDITOR"] },
-    { icon: TrendingUp, label: "KPIs", path: "/admin/kpis", roles: ["SUPERADMIN", "EDITOR"] },
-    { icon: BarChart, label: "Submissions", path: "/admin/submissions", roles: ["SUPERADMIN", "EDITOR"] },
-    { icon: Settings, label: "Settings", path: "/admin/settings", roles: ["SUPERADMIN"] },
-  ];
-
-  const accessibleItems = menuItems.filter((item) =>
-    role ? item.roles.includes(role) : false
-  );
-
   return (
-    <div className="flex min-h-screen">
-      {/* Sidebar */}
-      <aside
-        className={`${
-          sidebarOpen ? "w-64" : "w-16"
-        } border-r bg-muted/50 transition-all duration-300 flex flex-col`}
-      >
-        <div className="p-4 border-b flex items-center justify-between">
-          {sidebarOpen && <h2 className="font-bold text-lg">YDA Admin</h2>}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-          >
-            <MenuIcon className="h-5 w-5" />
-          </Button>
-        </div>
+    <SidebarProvider>
+      <div className="flex min-h-screen w-full">
+        <AppSidebar role={role} />
 
-        <nav className="flex-1 p-2">
-          {accessibleItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = location.pathname === item.path;
-
-            return (
-              <Link key={item.path} to={item.path}>
-                <Button
-                  variant={isActive ? "secondary" : "ghost"}
-                  className={`w-full justify-start mb-1 ${
-                    !sidebarOpen && "justify-center"
-                  }`}
-                >
-                  <Icon className={`h-5 w-5 ${sidebarOpen && "mr-2"}`} />
-                  {sidebarOpen && item.label}
-                </Button>
-              </Link>
-            );
-          })}
-        </nav>
-
-        <div className="p-2 border-t">
-          <Button
-            variant="ghost"
-            onClick={handleLogout}
-            className={`w-full justify-start ${!sidebarOpen && "justify-center"}`}
-          >
-            <LogOut className={`h-5 w-5 ${sidebarOpen && "mr-2"}`} />
-            {sidebarOpen && "Logout"}
-          </Button>
-        </div>
-      </aside>
-
-      {/* Main Content */}
-      <main className="flex-1 overflow-auto">
-        <div className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-          <div className="container flex h-14 items-center">
-            <div className="flex-1">
-              <p className="text-sm text-muted-foreground">
-                Logged in as: <span className="font-medium">{user?.email}</span>
-                {role && (
-                  <span className="ml-2 text-xs bg-primary/10 text-primary px-2 py-1 rounded">
-                    {role}
-                  </span>
-                )}
-              </p>
+        {/* Main Content */}
+        <main className="flex-1 overflow-auto">
+          {/* Header */}
+          <header className="sticky top-0 z-10 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <div className="flex h-14 items-center gap-4 px-6">
+              <SidebarTrigger />
+              <div className="flex-1">
+                <p className="text-sm text-muted-foreground">
+                  Logged in as: <span className="font-medium text-foreground">{user?.email}</span>
+                  {role && (
+                    <span className="ml-2 text-xs bg-primary/10 text-primary px-2 py-1 rounded-md font-medium">
+                      {role}
+                    </span>
+                  )}
+                </p>
+              </div>
             </div>
-          </div>
-        </div>
+          </header>
 
-        <div className="container py-6">
-          <Routes>
-            <Route index element={<AdminOverview />} />
-            <Route path="pages" element={<AdminPages />} />
-            <Route path="events" element={<AdminEvents />} />
-            <Route path="programs" element={<AdminPrograms />} />
-            <Route path="programs/:id" element={<AdminProgramDetail />} />
-            <Route path="posts" element={<AdminPosts />} />
-            <Route path="kpis" element={<AdminKPIs />} />
-            <Route path="submissions" element={<AdminSubmissions />} />
-            <Route path="settings" element={<AdminSettings />} />
-          </Routes>
-        </div>
-      </main>
-    </div>
+          {/* Page Content */}
+          <div className="p-6">
+            <Routes>
+              <Route index element={<AdminOverview />} />
+              <Route path="pages" element={<AdminPages />} />
+              <Route path="events" element={<AdminEvents />} />
+              <Route path="programs" element={<AdminPrograms />} />
+              <Route path="programs/:id" element={<AdminProgramDetail />} />
+              <Route path="posts" element={<AdminPosts />} />
+              <Route path="kpis" element={<AdminKPIs />} />
+              <Route path="submissions" element={<AdminSubmissions />} />
+              <Route path="settings" element={<AdminSettings />} />
+            </Routes>
+          </div>
+        </main>
+      </div>
+    </SidebarProvider>
   );
 };
 
