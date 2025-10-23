@@ -10,6 +10,7 @@ import { AppSidebar } from "@/components/admin/AppSidebar";
 import AdminOverview from "./Overview";
 import AdminPages from "./Pages";
 import AdminEvents from "./Events";
+import EventForm from "./events/EventForm";
 import AdminPrograms from "./Programs";
 import AdminProgramDetail from "./programs/[id]";
 import AdminPosts from "./Posts";
@@ -97,6 +98,8 @@ const AdminDashboard = () => {
               <Route index element={<AdminOverview />} />
               <Route path="pages" element={<AdminPages />} />
               <Route path="events" element={<AdminEvents />} />
+              <Route path="events/new" element={<EventForm />} />
+              <Route path="events/:id" element={<EventForm eventId="id" />} />
               <Route path="programs" element={<AdminPrograms />} />
               <Route path="programs/:id" element={<AdminProgramDetail />} />
               <Route path="posts" element={<AdminPosts />} />
