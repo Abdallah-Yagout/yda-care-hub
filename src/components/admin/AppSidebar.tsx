@@ -86,7 +86,7 @@ export function AppSidebar({ role }: AppSidebarProps) {
                 return (
                   <SidebarMenuItem key={item.path}>
                     <SidebarMenuButton asChild tooltip={item.label}>
-                      <NavLink to={item.path} end className={getNavClass}>
+                      <NavLink to={item.path} end={item.path === "/admin"} className={getNavClass}>
                         <Icon className="h-4 w-4" />
                         {!collapsed && <span>{item.label}</span>}
                       </NavLink>
