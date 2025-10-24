@@ -8,10 +8,10 @@ export const Footer = () => {
   const { locale } = useLocale();
 
   const quickLinks = [
-    { label: t("nav.home"), path: `/${locale}`, icon: Home },
-    { label: t("nav.programs"), path: `/${locale}/programs`, icon: BookOpen },
-    { label: t("nav.events"), path: `/${locale}/events`, icon: Calendar },
-    { label: t("nav.resources"), path: `/${locale}/resources`, icon: FileText },
+    { label: t("home:nav.home"), path: `/${locale}`, icon: Home },
+    { label: t("home:nav.programs"), path: `/${locale}/programs`, icon: BookOpen },
+    { label: t("home:nav.events"), path: `/${locale}/events`, icon: Calendar },
+    { label: t("home:nav.resources"), path: `/${locale}/resources`, icon: FileText },
   ];
 
   return (
@@ -56,7 +56,7 @@ export const Footer = () => {
 
           {/* Contact */}
           <div>
-            <h3 className="font-bold text-lg mb-4">{t("contact.title")}</h3>
+            <h3 className="font-bold text-lg mb-4">{t("resources:contact.title")}</h3>
             <div className="text-sm text-muted-foreground space-y-3">
               <a
                 href="mailto:info@yda-yemen.org"

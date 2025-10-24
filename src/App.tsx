@@ -30,9 +30,19 @@ const App = () => {
   const { i18n } = useTranslation();
 
   useEffect(() => {
-    // Set document direction based on language
-    document.documentElement.dir = i18n.language === "ar" ? "rtl" : "ltr";
+    // Set document direction and language based on current language
+    const isRTL = i18n.language === "ar";
+    document.documentElement.dir = isRTL ? "rtl" : "ltr";
     document.documentElement.lang = i18n.language;
+    
+    // Add RTL class to body for additional styling hooks
+    if (isRTL) {
+      document.body.classList.add('rtl');
+      document.body.classList.remove('ltr');
+    } else {
+      document.body.classList.add('ltr');
+      document.body.classList.remove('rtl');
+    }
   }, [i18n.language]);
 
   return (
@@ -43,19 +53,19 @@ const App = () => {
           <Sonner />
           <BrowserRouter>
             <Routes>
-              {/* Redirect root to Arabic */}
+              {/* Redirect root to Arabic (default) */}
               <Route path="/" element={<Navigate to="/ar" replace />} />
               
-              {/* Public Routes */}
-              <Route path="/:locale" element={<Index />} />
-              <Route path="/:locale/events" element={<Events />} />
-              <Route path="/:locale/events/:slug" element={<EventDetail />} />
-              <Route path="/:locale/programs" element={<Programs />} />
-              <Route path="/:locale/programs/:slug" element={<ProgramDetail />} />
-              <Route path="/:locale/resources" element={<Resources />} />
-              <Route path="/:locale/resources/:slug" element={<ResourceDetail />} />
-              <Route path="/:locale/get-involved" element={<GetInvolved />} />
-              <Route path="/:locale/contact" element={<Contact />} />
+              {/* Public Routes - locale restricted to ar|en */}
+              <Route path="/:locale(ar|en)" element={<Index />} />
+              <Route path="/:locale(ar|en)/events" element={<Events />} />
+              <Route path="/:locale(ar|en)/events/:slug" element={<EventDetail />} />
+              <Route path="/:locale(ar|en)/programs" element={<Programs />} />
+              <Route path="/:locale(ar|en)/programs/:slug" element={<ProgramDetail />} />
+              <Route path="/:locale(ar|en)/resources" element={<Resources />} />
+              <Route path="/:locale(ar|en)/resources/:slug" element={<ResourceDetail />} />
+              <Route path="/:locale(ar|en)/get-involved" element={<GetInvolved />} />
+              <Route path="/:locale(ar|en)/contact" element={<Contact />} />
               
               {/* Admin Routes */}
               <Route path="/admin/login" element={<AdminLogin />} />

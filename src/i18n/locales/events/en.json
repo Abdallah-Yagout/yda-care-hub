@@ -1,0 +1,12 @@
+{
+  "title": "Events",
+  "upcoming": "Upcoming",
+  "past": "Past",
+  "filterByCity": "Filter by City",
+  "filterByMonth": "Filter by Month",
+  "capacity": "Capacity",
+  "venue": "Venue",
+  "register": "Register",
+  "addToCalendar": "Add to Calendar",
+  "registered": "Successfully Registered"
+}

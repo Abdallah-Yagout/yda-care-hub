@@ -1,0 +1,27 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "programs": "Programs",
+    "events": "Events",
+    "resources": "Resources",
+    "getInvolved": "Get Involved",
+    "contact": "Contact",
+    "admin": "Admin"
+  },
+  "hero": {
+    "title": "Yemen Diabetes Association",
+    "subtitle": "Working together for a future free from diabetes complications in Yemen",
+    "cta1": "Book Screening",
+    "cta2": "Volunteer",
+    "cta3": "Donate Now"
+  },
+  "mission": "Our Mission",
+  "vision": "Our Vision",
+  "values": "Our Values",
+  "kpis": "Statistics",
+  "programs": "Our Programs",
+  "events": "Upcoming Events",
+  "resources": "Featured Resources",
+  "cta": "Join Us Today"
+}

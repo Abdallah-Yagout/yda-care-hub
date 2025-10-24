@@ -1,0 +1,16 @@
+{
+  "login": "Login",
+  "logout": "Logout",
+  "dashboard": "Dashboard",
+  "pages": "Pages",
+  "blocks": "Blocks",
+  "kpis": "KPIs",
+  "events": "Events",
+  "programs": "Programs",
+  "posts": "Posts",
+  "partners": "Partners",
+  "menus": "Menus",
+  "settings": "Settings",
+  "users": "Users",
+  "submissions": "Submissions"
+}
