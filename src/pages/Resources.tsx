@@ -24,7 +24,7 @@ interface Post {
 
 const Resources = () => {
   const { locale } = useLocale();
-  const { t } = useTranslation();
+  const { t } = useTranslation(["common", "resources"]);
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -81,7 +81,7 @@ const Resources = () => {
       </Helmet>
 
       <div className="container py-12">
-        <h1 className="text-4xl font-bold mb-4">{t("resources.title")}</h1>
+        <h1 className="text-4xl font-bold mb-4">{t("resources:title")}</h1>
         <p className="text-xl text-muted-foreground mb-8 max-w-3xl">
           {locale === "ar"
             ? "مقالات وأدلة ومعلومات مفيدة حول مرض السكري"
