@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Search } from "lucide-react";
 import { format } from "date-fns";
 
 interface Submission {
@@ -16,14 +18,17 @@ const AdminSubmissions = () => {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortBy, setSortBy] = useState("created_at");
 
   useEffect(() => {
     loadSubmissions();
-  }, [filter]);
+  }, [filter, sortBy]);
 
   const loadSubmissions = async () => {
     try {
-      let query = supabase.from("submission").select("*").order("created_at", { ascending: false });
+      const orderColumn = sortBy === "created_at" ? "created_at" : "form_type";
+      let query = supabase.from("submission").select("*").order(orderColumn, { ascending: sortBy === "form_type" });
 
       if (filter !== "all") {
         query = query.eq("form_type", filter);
@@ -39,6 +44,15 @@ const AdminSubmissions = () => {
       setLoading(false);
     }
   };
+
+  const filteredSubmissions = submissions.filter((submission) => {
+    if (!searchQuery) return true;
+    const query = searchQuery.toLowerCase();
+    const name = submission.data.name?.toLowerCase() || "";
+    const email = submission.data.email?.toLowerCase() || "";
+    const message = submission.data.message?.toLowerCase() || "";
+    return name.includes(query) || email.includes(query) || message.includes(query);
+  });
 
   const getFormTypeLabel = (type: string) => {
     const labels: Record<string, string> = {
@@ -60,12 +74,27 @@ const AdminSubmissions = () => {
   };
 
   return (
-    <div>
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Form Submissions</h1>
+    <div className="space-y-6">
+      {/* Header */}
+      <div>
+        <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Form Submissions</h1>
+        <p className="text-muted-foreground mt-1">View and manage form submissions</p>
+      </div>
+
+      {/* Search and Filters */}
+      <div className="flex flex-col sm:flex-row gap-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search by name, email, or message..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-9"
+          />
+        </div>
         <Select value={filter} onValueChange={setFilter}>
-          <SelectTrigger className="w-48">
-            <SelectValue />
+          <SelectTrigger className="w-full sm:w-48">
+            <SelectValue placeholder="Filter by type" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Types</SelectItem>
@@ -74,11 +103,20 @@ const AdminSubmissions = () => {
             <SelectItem value="event-register">Event Registration</SelectItem>
           </SelectContent>
         </Select>
+        <Select value={sortBy} onValueChange={setSortBy}>
+          <SelectTrigger className="w-full sm:w-48">
+            <SelectValue placeholder="Sort by" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="created_at">Most Recent</SelectItem>
+            <SelectItem value="form_type">Form Type</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       {loading ? (
         <p>Loading...</p>
-      ) : submissions.length === 0 ? (
+      ) : filteredSubmissions.length === 0 ? (
         <Card>
           <CardContent className="pt-6 text-center text-muted-foreground">
             No submissions found
@@ -86,7 +124,7 @@ const AdminSubmissions = () => {
         </Card>
       ) : (
         <div className="grid gap-4">
-          {submissions.map((submission) => (
+          {filteredSubmissions.map((submission) => (
             <Card key={submission.id}>
               <CardHeader>
                 <div className="flex items-start justify-between">

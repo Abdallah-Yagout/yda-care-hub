@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import { FileText, Plus, Search, Loader2, Edit, Trash2, ExternalLink } from "lucide-react";
@@ -34,6 +35,8 @@ const AdminPages = () => {
   const [pages, setPages] = useState<Page[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [sortBy, setSortBy] = useState("updated_at");
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -57,14 +60,25 @@ const AdminPages = () => {
     }
   };
 
-  const filteredPages = pages.filter(page => {
-    const searchLower = searchQuery.toLowerCase();
-    return (
-      page.title?.ar?.toLowerCase().includes(searchLower) ||
-      page.title?.en?.toLowerCase().includes(searchLower) ||
-      page.slug?.toLowerCase().includes(searchLower)
-    );
-  });
+  const filteredPages = pages
+    .filter(page => {
+      const searchLower = searchQuery.toLowerCase();
+      const matchesSearch = 
+        page.title?.ar?.toLowerCase().includes(searchLower) ||
+        page.title?.en?.toLowerCase().includes(searchLower) ||
+        page.slug?.toLowerCase().includes(searchLower);
+      const matchesStatus = statusFilter === "all" || page.status === statusFilter;
+      return matchesSearch && matchesStatus;
+    })
+    .sort((a, b) => {
+      if (sortBy === "title") {
+        return (a.title?.en || "").localeCompare(b.title?.en || "");
+      }
+      if (sortBy === "updated_at") {
+        return new Date(b.updated_at || 0).getTime() - new Date(a.updated_at || 0).getTime();
+      }
+      return 0;
+    });
 
   const handleDelete = async () => {
     if (!deleteId) return;
@@ -100,20 +114,37 @@ const AdminPages = () => {
         </Button>
       </div>
 
-      {/* Search */}
-      <Card>
-        <CardContent className="pt-6">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search pages by title or slug..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-9"
-            />
-          </div>
-        </CardContent>
-      </Card>
+      {/* Search and Filters */}
+      <div className="flex flex-col sm:flex-row gap-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search pages by title or slug..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-9"
+          />
+        </div>
+        <Select value={statusFilter} onValueChange={setStatusFilter}>
+          <SelectTrigger className="w-full sm:w-48">
+            <SelectValue placeholder="Filter by status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Status</SelectItem>
+            <SelectItem value="published">Published</SelectItem>
+            <SelectItem value="draft">Draft</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select value={sortBy} onValueChange={setSortBy}>
+          <SelectTrigger className="w-full sm:w-48">
+            <SelectValue placeholder="Sort by" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="updated_at">Recently Updated</SelectItem>
+            <SelectItem value="title">Title (A-Z)</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
 
       {loading ? (
         <div className="flex items-center justify-center h-64">

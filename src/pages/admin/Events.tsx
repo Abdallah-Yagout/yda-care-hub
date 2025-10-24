@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import { Calendar, MapPin, Users, Plus, Search, Loader2, Edit, Trash2, ExternalLink } from "lucide-react";
@@ -36,6 +37,8 @@ const AdminEvents = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [sortBy, setSortBy] = useState("start_at");
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -59,14 +62,27 @@ const AdminEvents = () => {
     }
   };
 
-  const filteredEvents = events.filter(event => {
-    const searchLower = searchQuery.toLowerCase();
-    return (
-      event.title?.ar?.toLowerCase().includes(searchLower) ||
-      event.title?.en?.toLowerCase().includes(searchLower) ||
-      event.slug?.toLowerCase().includes(searchLower)
-    );
-  });
+  const filteredEvents = events
+    .filter(event => {
+      const searchLower = searchQuery.toLowerCase();
+      const city = event.city?.en?.toLowerCase() || event.city?.ar?.toLowerCase() || "";
+      const matchesSearch = 
+        event.title?.ar?.toLowerCase().includes(searchLower) ||
+        event.title?.en?.toLowerCase().includes(searchLower) ||
+        event.slug?.toLowerCase().includes(searchLower) ||
+        city.includes(searchLower);
+      const matchesStatus = statusFilter === "all" || event.status === statusFilter;
+      return matchesSearch && matchesStatus;
+    })
+    .sort((a, b) => {
+      if (sortBy === "title") {
+        return (a.title?.en || "").localeCompare(b.title?.en || "");
+      }
+      if (sortBy === "start_at") {
+        return new Date(b.start_at || 0).getTime() - new Date(a.start_at || 0).getTime();
+      }
+      return 0;
+    });
 
   const handleDelete = async () => {
     if (!deleteId) return;
@@ -102,20 +118,37 @@ const AdminEvents = () => {
         </Button>
       </div>
 
-      {/* Search */}
-      <Card>
-        <CardContent className="pt-6">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search events by title or slug..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-9"
-            />
-          </div>
-        </CardContent>
-      </Card>
+      {/* Search and Filters */}
+      <div className="flex flex-col sm:flex-row gap-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search events by title, city, or slug..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-9"
+          />
+        </div>
+        <Select value={statusFilter} onValueChange={setStatusFilter}>
+          <SelectTrigger className="w-full sm:w-48">
+            <SelectValue placeholder="Filter by status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Status</SelectItem>
+            <SelectItem value="published">Published</SelectItem>
+            <SelectItem value="draft">Draft</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select value={sortBy} onValueChange={setSortBy}>
+          <SelectTrigger className="w-full sm:w-48">
+            <SelectValue placeholder="Sort by" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="start_at">Event Date</SelectItem>
+            <SelectItem value="title">Title (A-Z)</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
 
       {loading ? (
         <div className="flex items-center justify-center h-64">
