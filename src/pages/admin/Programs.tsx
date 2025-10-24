@@ -67,7 +67,7 @@ const AdminPrograms = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
@@ -122,8 +122,8 @@ const AdminPrograms = () => {
         </div>
       ) : filteredPrograms && filteredPrograms.length > 0 ? (
         <div className="grid gap-4">
-          {filteredPrograms.map((program) => (
-            <Card key={program.id} className="hover-lift">
+          {filteredPrograms.map((program, index) => (
+            <Card key={program.id} className="hover-lift animate-fade-in-up" style={{ animationDelay: `${index * 50}ms` }}>
               <CardHeader>
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1 min-w-0">
@@ -163,6 +163,7 @@ const AdminPrograms = () => {
                     size="sm"
                     variant="outline"
                     onClick={() => navigate(`/admin/programs/${program.id}`)}
+                    className="btn-scale"
                   >
                     <Edit className="h-4 w-4 mr-2" />
                     Edit
@@ -171,6 +172,7 @@ const AdminPrograms = () => {
                     size="sm"
                     variant="outline"
                     onClick={() => setDeleteId(program.id)}
+                    className="btn-scale"
                   >
                     <Trash2 className="h-4 w-4 mr-2" />
                     Delete

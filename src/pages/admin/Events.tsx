@@ -114,7 +114,7 @@ const AdminEvents = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
@@ -168,8 +168,8 @@ const AdminEvents = () => {
         </div>
       ) : filteredEvents.length > 0 ? (
         <div className="grid gap-4">
-          {filteredEvents.map((event) => (
-            <Card key={event.id} className="hover-lift">
+          {filteredEvents.map((event, index) => (
+            <Card key={event.id} className="hover-lift animate-fade-in-up" style={{ animationDelay: `${index * 50}ms` }}>
               <CardHeader>
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1 min-w-0">
@@ -212,6 +212,7 @@ const AdminEvents = () => {
                     size="sm"
                     variant="outline"
                     onClick={() => navigate(`/admin/events/${event.id}`)}
+                    className="btn-scale"
                   >
                     <Edit className="h-4 w-4 mr-2" />
                     Edit
@@ -220,6 +221,7 @@ const AdminEvents = () => {
                     size="sm"
                     variant="outline"
                     onClick={() => window.open(`/en/events/${event.slug}`, '_blank')}
+                    className="btn-scale"
                   >
                     <ExternalLink className="h-4 w-4 mr-2" />
                     Preview
@@ -228,6 +230,7 @@ const AdminEvents = () => {
                     size="sm"
                     variant="outline"
                     onClick={() => setDeleteId(event.id)}
+                    className="btn-scale"
                   >
                     <Trash2 className="h-4 w-4 mr-2" />
                     Delete

@@ -173,11 +173,55 @@
   
   /* Hover lift effect */
   .hover-lift {
-    @apply transition-smooth hover:-translate-y-1 hover:shadow-lg;
+    @apply transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg;
   }
   
   /* Interactive card */
   .card-interactive {
-    @apply transition-smooth hover:-translate-y-1 hover:shadow-xl;
+    @apply transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl hover:border-primary/20;
+  }
+  
+  /* Button hover scale */
+  .btn-scale {
+    @apply transition-transform duration-200 ease-out hover:scale-105 active:scale-95;
+  }
+  
+  /* Stagger animation delay utilities */
+  .stagger-1 {
+    animation-delay: 50ms;
+  }
+  
+  .stagger-2 {
+    animation-delay: 100ms;
+  }
+  
+  .stagger-3 {
+    animation-delay: 150ms;
+  }
+  
+  .stagger-4 {
+    animation-delay: 200ms;
+  }
+  
+  /* Shimmer loading effect */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted)) 0%,
+      hsl(var(--muted-foreground) / 0.1) 50%,
+      hsl(var(--muted)) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite linear;
+  }
+  
+  /* Glass morphism */
+  .glass {
+    @apply bg-background/80 backdrop-blur-md border border-border/50;
+  }
+  
+  /* Focus ring */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
   }
 }

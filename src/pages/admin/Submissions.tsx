@@ -84,7 +84,7 @@ const AdminSubmissions = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       {/* Header */}
       <div>
         <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Form Submissions</h1>
@@ -134,8 +134,8 @@ const AdminSubmissions = () => {
         </Card>
       ) : (
         <div className="grid gap-4">
-          {filteredSubmissions.map((submission) => (
-            <Card key={submission.id}>
+          {filteredSubmissions.map((submission, index) => (
+            <Card key={submission.id} className="hover-lift animate-fade-in-up" style={{ animationDelay: `${index * 50}ms` }}>
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
