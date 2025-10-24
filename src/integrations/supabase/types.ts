@@ -220,6 +220,69 @@ export type Database = {
         }
         Relationships: []
       }
+      media_library: {
+        Row: {
+          alt_text: Json
+          caption: Json | null
+          category: string
+          created_at: string
+          file_size: number | null
+          filename: string
+          height: number | null
+          id: string
+          is_featured: boolean | null
+          mime_type: string | null
+          prompt: string | null
+          public_url: string | null
+          source: string
+          source_attribution: string | null
+          storage_path: string
+          tags: string[] | null
+          updated_at: string
+          width: number | null
+        }
+        Insert: {
+          alt_text?: Json
+          caption?: Json | null
+          category: string
+          created_at?: string
+          file_size?: number | null
+          filename: string
+          height?: number | null
+          id?: string
+          is_featured?: boolean | null
+          mime_type?: string | null
+          prompt?: string | null
+          public_url?: string | null
+          source: string
+          source_attribution?: string | null
+          storage_path: string
+          tags?: string[] | null
+          updated_at?: string
+          width?: number | null
+        }
+        Update: {
+          alt_text?: Json
+          caption?: Json | null
+          category?: string
+          created_at?: string
+          file_size?: number | null
+          filename?: string
+          height?: number | null
+          id?: string
+          is_featured?: boolean | null
+          mime_type?: string | null
+          prompt?: string | null
+          public_url?: string | null
+          source?: string
+          source_attribution?: string | null
+          storage_path?: string
+          tags?: string[] | null
+          updated_at?: string
+          width?: number | null
+        }
+        Relationships: []
+      }
       menu: {
         Row: {
           created_at: string | null

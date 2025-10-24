@@ -20,6 +20,7 @@ import AdminKPIs from "./KPIs";
 import Analytics from "./Analytics";
 import AdminSettings from "./Settings";
 import AdminSubmissions from "./Submissions";
+import AdminMedia from "./Media";
 
 const AdminDashboard = () => {
   const { user, role, loading, isAuthenticated } = useAuthGuard(true);
@@ -113,6 +114,7 @@ const AdminDashboard = () => {
               <Route path="kpis" element={<AdminKPIs />} />
               <Route path="analytics" element={<Analytics />} />
               <Route path="submissions" element={<AdminSubmissions />} />
+              <Route path="media" element={<AdminMedia />} />
               <Route path="settings" element={<AdminSettings />} />
             </Routes>
           </div>
