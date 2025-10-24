@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useLocale } from "@/hooks/use-locale";
-import { Facebook, Twitter, Youtube, Heart, Mail, Phone, MapPin, Home, Calendar, BookOpen, FileText } from "lucide-react";
+import { Facebook, Youtube, Heart, Mail, Phone, MapPin, Home, Calendar, BookOpen, FileText } from "lucide-react";
 
 export const Footer = () => {
   const { t } = useTranslation();
@@ -30,8 +30,8 @@ export const Footer = () => {
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
               {locale === "ar"
-                ? "نعمل معاً من أجل مستقبل خالٍ من مضاعفات السكري"
-                : "Working together for a diabetes-free future"}
+                ? "نُساندكم لتعيشوا بصحة أفضل مع السكري — نرفع الوعي، نُحسّن الرعاية، ونُعزّز قدرات المجتمع"
+                : "Helping people in Yemen live healthier with diabetes—awareness, better care, and strong community capacity"}
             </p>
           </div>
 
@@ -59,22 +59,22 @@ export const Footer = () => {
             <h3 className="font-bold text-lg mb-4">{t("resources:contact.title")}</h3>
             <div className="text-sm text-muted-foreground space-y-3">
               <a
-                href="mailto:info@yda-yemen.org"
+                href="mailto:info@yda.ngo"
                 className="flex items-center gap-2 hover:text-primary transition-colors"
               >
                 <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                   <Mail className="h-4 w-4 text-primary" />
                 </div>
-                <span>info@yda-yemen.org</span>
+                <span>info@yda.ngo</span>
               </a>
               <a
-                href="tel:+9671234567"
+                href="tel:+96712468666"
                 className="flex items-center gap-2 hover:text-primary transition-colors"
               >
                 <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                   <Phone className="h-4 w-4 text-primary" />
                 </div>
-                <span>+967 1 234567</span>
+                <span>+967 1 246 866</span>
               </a>
               <div className="flex items-start gap-2">
                 <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
@@ -97,7 +97,7 @@ export const Footer = () => {
             </p>
             <div className="flex gap-3">
               <a
-                href="https://facebook.com/yda"
+                href="https://www.facebook.com/61556779521467/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="h-10 w-10 rounded-lg bg-muted hover:bg-primary hover:text-primary-foreground transition-all duration-200 flex items-center justify-center"
@@ -106,16 +106,7 @@ export const Footer = () => {
                 <Facebook className="h-5 w-5" />
               </a>
               <a
-                href="https://twitter.com/yda"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="h-10 w-10 rounded-lg bg-muted hover:bg-primary hover:text-primary-foreground transition-all duration-200 flex items-center justify-center"
-                aria-label="Twitter"
-              >
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a
-                href="https://youtube.com/@yda"
+                href="https://www.youtube.com/@YemenDiabetesAssociation"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="h-10 w-10 rounded-lg bg-muted hover:bg-primary hover:text-primary-foreground transition-all duration-200 flex items-center justify-center"

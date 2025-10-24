@@ -93,10 +93,10 @@ const Contact = () => {
                 </CardHeader>
                 <CardContent>
                   <a
-                    href="mailto:info@yda-yemen.org"
+                    href="mailto:info@yda.ngo"
                     className="text-primary hover:underline"
                   >
-                    info@yda-yemen.org
+                    info@yda.ngo
                   </a>
                 </CardContent>
               </Card>
@@ -109,8 +109,8 @@ const Contact = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <a href="tel:+96712345678" className="text-primary hover:underline">
-                    +967 1 234567
+                  <a href="tel:+96712468666" className="text-primary hover:underline">
+                    +967 1 246 866
                   </a>
                 </CardContent>
               </Card>
