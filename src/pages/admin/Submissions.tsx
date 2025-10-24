@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useRealtimeSubscription } from "@/hooks/useRealtimeSubscription";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -24,6 +25,15 @@ const AdminSubmissions = () => {
   useEffect(() => {
     loadSubmissions();
   }, [filter, sortBy]);
+
+  // Real-time subscription for new submissions
+  useRealtimeSubscription({
+    table: 'submission',
+    onInsert: () => {
+      loadSubmissions();
+    },
+    showNotifications: true,
+  });
 
   const loadSubmissions = async () => {
     try {

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePrograms, useDeleteProgram } from "@/hooks/usePrograms";
+import { useRealtimeSubscription } from "@/hooks/useRealtimeSubscription";
+import { useQueryClient } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,6 +22,7 @@ import { Plus, Search, Loader2, Edit, Trash2, BookOpen } from "lucide-react";
 
 const AdminPrograms = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [sortBy, setSortBy] = useState("updated_at");
@@ -27,6 +30,14 @@ const AdminPrograms = () => {
 
   const { data: programs, isLoading } = usePrograms();
   const deleteProgram = useDeleteProgram();
+
+  // Real-time subscription
+  useRealtimeSubscription({
+    table: 'program',
+    onInsert: () => queryClient.invalidateQueries({ queryKey: ['programs'] }),
+    onUpdate: () => queryClient.invalidateQueries({ queryKey: ['programs'] }),
+    onDelete: () => queryClient.invalidateQueries({ queryKey: ['programs'] }),
+  });
 
   const filteredPrograms = programs
     ?.filter(program => {

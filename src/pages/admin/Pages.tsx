@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { useRealtimeSubscription } from "@/hooks/useRealtimeSubscription";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -42,6 +43,14 @@ const AdminPages = () => {
   useEffect(() => {
     loadPages();
   }, []);
+
+  // Real-time subscription
+  useRealtimeSubscription({
+    table: 'page',
+    onInsert: () => loadPages(),
+    onUpdate: () => loadPages(),
+    onDelete: () => loadPages(),
+  });
 
   const loadPages = async () => {
     try {
