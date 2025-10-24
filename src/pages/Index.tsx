@@ -152,22 +152,29 @@ const Index = () => {
   const vision = getBlockByKey("vision");
   const values = getBlockByKey("values");
 
+  const seoTitle = locale === "ar" ? "جمعية السكري اليمنية" : "Yemen Diabetes Association";
+  const seoDescription = locale === "ar" 
+    ? "نعمل معاً من أجل مستقبل خالٍ من مضاعفات السكري في اليمن. برامج توعية، فحوصات مجانية، ودعم شامل لمرضى السكري"
+    : "Working together for a future free from diabetes complications in Yemen. Awareness programs, free screenings, and comprehensive support for diabetes patients";
+
   return (
     <PublicLayout>
       <Helmet>
-        <title>
-          {locale === "ar"
-            ? "جمعية السكري اليمنية | YDA"
-            : "Yemen Diabetes Association | YDA"}
-        </title>
-        <meta
-          name="description"
-          content={
-            locale === "ar"
-              ? "نعمل معاً من أجل مستقبل خالٍ من مضاعفات السكري في اليمن"
-              : "Working together for a future free from diabetes complications in Yemen"
-          }
-        />
+        <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} />
+        <title>{seoTitle} | YDA</title>
+        <meta name="description" content={seoDescription} />
+        <link rel="canonical" href={`${window.location.origin}/${locale}`} />
+        <link rel="alternate" hrefLang="ar" href={`${window.location.origin}/ar`} />
+        <link rel="alternate" hrefLang="en" href={`${window.location.origin}/en`} />
+        <link rel="alternate" hrefLang="x-default" href={`${window.location.origin}/ar`} />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={`${seoTitle} | YDA`} />
+        <meta property="og:description" content={seoDescription} />
+        <meta property="og:image" content={`${window.location.origin}/logo.png`} />
+        <meta property="og:locale" content={locale === "ar" ? "ar_YE" : "en_US"} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${seoTitle} | YDA`} />
+        <meta name="twitter:description" content={seoDescription} />
       </Helmet>
 
       {/* Hero Section */}

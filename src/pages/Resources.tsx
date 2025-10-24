@@ -60,18 +60,24 @@ const Resources = () => {
 
   const dateLocale = locale === "ar" ? ar : enUS;
 
+  const seoTitle = locale === "ar" ? "المصادر" : "Resources";
+  const seoDescription = locale === "ar"
+    ? "مقالات وأدلة ومصادر عن السكري. معلومات موثوقة لإدارة السكري بشكل أفضل"
+    : "Articles, guides, and resources about diabetes. Trusted information for better diabetes management";
+
   return (
     <PublicLayout>
       <Helmet>
-        <title>{t("resources.title")} | YDA</title>
-        <meta
-          name="description"
-          content={
-            locale === "ar"
-              ? "موارد ومقالات حول مرض السكري"
-              : "Resources and articles about diabetes"
-          }
-        />
+        <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} />
+        <title>{seoTitle} | YDA</title>
+        <meta name="description" content={seoDescription} />
+        <link rel="canonical" href={`${window.location.origin}/${locale}/resources`} />
+        <link rel="alternate" hrefLang="ar" href={`${window.location.origin}/ar/resources`} />
+        <link rel="alternate" hrefLang="en" href={`${window.location.origin}/en/resources`} />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={`${seoTitle} | YDA`} />
+        <meta property="og:description" content={seoDescription} />
+        <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
 
       <div className="container py-12">

@@ -59,10 +59,24 @@ const GetInvolved = () => {
     }
   };
 
+  const seoTitle = locale === "ar" ? "شارك معنا" : "Get Involved";
+  const seoDescription = locale === "ar"
+    ? "انضم إلينا في مكافحة مرض السكري في اليمن. تطوع، تبرع، أو كن شريكاً استراتيجياً"
+    : "Join us in the fight against diabetes in Yemen. Volunteer, donate, or become a strategic partner";
+
   return (
     <PublicLayout>
       <Helmet>
-        <title>{t("nav.getInvolved")} | YDA</title>
+        <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} />
+        <title>{seoTitle} | YDA</title>
+        <meta name="description" content={seoDescription} />
+        <link rel="canonical" href={`${window.location.origin}/${locale}/get-involved`} />
+        <link rel="alternate" hrefLang="ar" href={`${window.location.origin}/ar/get-involved`} />
+        <link rel="alternate" hrefLang="en" href={`${window.location.origin}/en/get-involved`} />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={`${seoTitle} | YDA`} />
+        <meta property="og:description" content={seoDescription} />
+        <meta name="twitter:card" content="summary" />
       </Helmet>
 
       <div className="container py-12">

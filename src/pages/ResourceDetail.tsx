@@ -82,8 +82,18 @@ const ResourceDetail = () => {
   return (
     <PublicLayout>
       <Helmet>
-        <title>{post.title[locale]} | YDA</title>
-        <meta name="description" content={post.excerpt?.[locale]} />
+        <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} />
+        <title>{post.title?.[locale] || "Article"} | YDA</title>
+        <meta name="description" content={post.excerpt?.[locale] || "Resource details"} />
+        <link rel="canonical" href={`${window.location.origin}/${locale}/resources/${slug}`} />
+        <link rel="alternate" hrefLang="ar" href={`${window.location.origin}/ar/resources/${slug}`} />
+        <link rel="alternate" hrefLang="en" href={`${window.location.origin}/en/resources/${slug}`} />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={`${post.title?.[locale]} | YDA`} />
+        <meta property="og:description" content={post.excerpt?.[locale] || ""} />
+        {post.cover_url && <meta property="og:image" content={post.cover_url} />}
+        {post.published_at && <meta property="article:published_time" content={post.published_at} />}
+        <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
 
       <div className="container py-12">

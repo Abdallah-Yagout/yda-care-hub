@@ -76,8 +76,17 @@ const ProgramDetail = () => {
   return (
     <PublicLayout>
       <Helmet>
-        <title>{program.title[locale]} | YDA</title>
-        <meta name="description" content={program.summary?.[locale]} />
+        <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} />
+        <title>{program.title?.[locale] || "Program"} | YDA</title>
+        <meta name="description" content={program.summary?.[locale] || "Program details"} />
+        <link rel="canonical" href={`${window.location.origin}/${locale}/programs/${slug}`} />
+        <link rel="alternate" hrefLang="ar" href={`${window.location.origin}/ar/programs/${slug}`} />
+        <link rel="alternate" hrefLang="en" href={`${window.location.origin}/en/programs/${slug}`} />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={`${program.title?.[locale]} | YDA`} />
+        <meta property="og:description" content={program.summary?.[locale] || ""} />
+        {program.cover_url && <meta property="og:image" content={program.cover_url} />}
+        <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
 
       <div className="container py-12">

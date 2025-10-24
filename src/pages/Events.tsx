@@ -122,15 +122,24 @@ const Events = () => {
   return (
     <PublicLayout>
       <Helmet>
+        <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} />
         <title>{t("events:title")} | YDA</title>
-        <meta
-          name="description"
-          content={
-            locale === "ar"
-              ? "تصفح فعاليات جمعية السكري اليمنية القادمة"
-              : "Browse upcoming Yemen Diabetes Association events"
-          }
-        />
+        <meta name="description" content={
+          locale === "ar"
+            ? "تصفح فعاليات جمعية السكري اليمنية القادمة والسابقة. ورش عمل، ندوات، وحملات توعوية"
+            : "Browse upcoming and past events from Yemen Diabetes Association. Workshops, seminars, and awareness campaigns"
+        } />
+        <link rel="canonical" href={`${window.location.origin}/${locale}/events`} />
+        <link rel="alternate" hrefLang="ar" href={`${window.location.origin}/ar/events`} />
+        <link rel="alternate" hrefLang="en" href={`${window.location.origin}/en/events`} />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={`${t("events:title")} | YDA`} />
+        <meta property="og:description" content={
+          locale === "ar"
+            ? "تصفح فعاليات جمعية السكري اليمنية القادمة والسابقة"
+            : "Browse upcoming and past events from Yemen Diabetes Association"
+        } />
+        <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
 
       {/* Hero Section */}

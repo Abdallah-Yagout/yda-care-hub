@@ -195,8 +195,18 @@ END:VCALENDAR`;
   return (
     <PublicLayout>
       <Helmet>
-        <title>{event.title[currentLocale]} | YDA</title>
-        <meta name="description" content={event.summary?.[currentLocale]} />
+        <html lang={currentLocale} dir={currentLocale === "ar" ? "rtl" : "ltr"} />
+        <title>{event.title?.[currentLocale] || "Event"} | YDA</title>
+        <meta name="description" content={event.summary?.[currentLocale] || "Event details"} />
+        <link rel="canonical" href={`${window.location.origin}/${currentLocale}/events/${slug}`} />
+        <link rel="alternate" hrefLang="ar" href={`${window.location.origin}/ar/events/${slug}`} />
+        <link rel="alternate" hrefLang="en" href={`${window.location.origin}/en/events/${slug}`} />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={`${event.title?.[currentLocale]} | YDA`} />
+        <meta property="og:description" content={event.summary?.[currentLocale] || ""} />
+        {event.cover_url && <meta property="og:image" content={event.cover_url} />}
+        <meta property="article:published_time" content={event.start_at} />
+        <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
 
       <div className="container py-12">

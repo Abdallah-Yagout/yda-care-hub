@@ -44,18 +44,24 @@ const Programs = () => {
     }
   };
 
+  const seoTitle = locale === "ar" ? "البرامج" : "Programs";
+  const seoDescription = locale === "ar"
+    ? "تعرف على برامج جمعية السكري اليمنية. برامج التوعية، الدعم، والتثقيف الصحي"
+    : "Explore Yemen Diabetes Association programs. Awareness, support, and health education programs";
+
   return (
     <PublicLayout>
       <Helmet>
-        <title>{t("programs.title")} | YDA</title>
-        <meta
-          name="description"
-          content={
-            locale === "ar"
-              ? "برامج جمعية السكري اليمنية"
-              : "Yemen Diabetes Association programs"
-          }
-        />
+        <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} />
+        <title>{seoTitle} | YDA</title>
+        <meta name="description" content={seoDescription} />
+        <link rel="canonical" href={`${window.location.origin}/${locale}/programs`} />
+        <link rel="alternate" hrefLang="ar" href={`${window.location.origin}/ar/programs`} />
+        <link rel="alternate" hrefLang="en" href={`${window.location.origin}/en/programs`} />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={`${seoTitle} | YDA`} />
+        <meta property="og:description" content={seoDescription} />
+        <meta name="twitter:card" content="summary" />
       </Helmet>
 
       <div className="container py-12">

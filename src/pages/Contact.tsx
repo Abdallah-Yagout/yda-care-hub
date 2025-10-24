@@ -53,10 +53,24 @@ const Contact = () => {
     }
   };
 
+  const seoTitle = locale === "ar" ? "اتصل بنا" : "Contact Us";
+  const seoDescription = locale === "ar"
+    ? "تواصل مع جمعية السكري اليمنية. نحن هنا للإجابة على أسئلتكم ومساعدتكم"
+    : "Get in touch with Yemen Diabetes Association. We're here to answer your questions and help you";
+
   return (
     <PublicLayout>
       <Helmet>
-        <title>{t("contact.title")} | YDA</title>
+        <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} />
+        <title>{seoTitle} | YDA</title>
+        <meta name="description" content={seoDescription} />
+        <link rel="canonical" href={`${window.location.origin}/${locale}/contact`} />
+        <link rel="alternate" hrefLang="ar" href={`${window.location.origin}/ar/contact`} />
+        <link rel="alternate" hrefLang="en" href={`${window.location.origin}/en/contact`} />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={`${seoTitle} | YDA`} />
+        <meta property="og:description" content={seoDescription} />
+        <meta name="twitter:card" content="summary" />
       </Helmet>
 
       <div className="container py-12">
