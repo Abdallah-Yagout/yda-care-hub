@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      activity_log: {
+        Row: {
+          action: string
+          created_at: string | null
+          entity_id: string | null
+          entity_type: string
+          id: string
+          ip_address: string | null
+          metadata: Json | null
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string | null
+          entity_id?: string | null
+          entity_type: string
+          id?: string
+          ip_address?: string | null
+          metadata?: Json | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string | null
+          entity_id?: string | null
+          entity_type?: string
+          id?: string
+          ip_address?: string | null
+          metadata?: Json | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       block: {
         Row: {
           content: Json | null
@@ -57,6 +93,42 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      content_analytics: {
+        Row: {
+          created_at: string | null
+          date: string
+          entity_id: string
+          entity_type: string
+          id: string
+          metadata: Json | null
+          metric: string
+          updated_at: string | null
+          value: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          date?: string
+          entity_id: string
+          entity_type: string
+          id?: string
+          metadata?: Json | null
+          metric: string
+          updated_at?: string | null
+          value?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          date?: string
+          entity_id?: string
+          entity_type?: string
+          id?: string
+          metadata?: Json | null
+          metric?: string
+          updated_at?: string | null
+          value?: number | null
+        }
+        Relationships: []
       }
       event: {
         Row: {
