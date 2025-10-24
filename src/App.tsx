@@ -56,16 +56,16 @@ const App = () => {
               {/* Redirect root to Arabic (default) */}
               <Route path="/" element={<Navigate to="/ar" replace />} />
               
-              {/* Public Routes - locale restricted to ar|en */}
-              <Route path="/:locale(ar|en)" element={<Index />} />
-              <Route path="/:locale(ar|en)/events" element={<Events />} />
-              <Route path="/:locale(ar|en)/events/:slug" element={<EventDetail />} />
-              <Route path="/:locale(ar|en)/programs" element={<Programs />} />
-              <Route path="/:locale(ar|en)/programs/:slug" element={<ProgramDetail />} />
-              <Route path="/:locale(ar|en)/resources" element={<Resources />} />
-              <Route path="/:locale(ar|en)/resources/:slug" element={<ResourceDetail />} />
-              <Route path="/:locale(ar|en)/get-involved" element={<GetInvolved />} />
-              <Route path="/:locale(ar|en)/contact" element={<Contact />} />
+              {/* Public Routes */}
+              <Route path="/:locale" element={<Index />} />
+              <Route path="/:locale/events" element={<Events />} />
+              <Route path="/:locale/events/:slug" element={<EventDetail />} />
+              <Route path="/:locale/programs" element={<Programs />} />
+              <Route path="/:locale/programs/:slug" element={<ProgramDetail />} />
+              <Route path="/:locale/resources" element={<Resources />} />
+              <Route path="/:locale/resources/:slug" element={<ResourceDetail />} />
+              <Route path="/:locale/get-involved" element={<GetInvolved />} />
+              <Route path="/:locale/contact" element={<Contact />} />
               
               {/* Admin Routes */}
               <Route path="/admin/login" element={<AdminLogin />} />
