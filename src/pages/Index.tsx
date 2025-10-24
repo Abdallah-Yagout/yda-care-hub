@@ -236,12 +236,6 @@ const Index = () => {
                   {t("hero.cta2")}
                 </Link>
               </Button>
-              <Button size="lg" variant="secondary" asChild className="shadow-md hover:shadow-lg transition-all">
-                <Link to={`/${locale}/contact`}>
-                  <Heart className={locale === "ar" ? "ml-2 h-5 w-5" : "mr-2 h-5 w-5"} />
-                  {t("hero.cta3")}
-                </Link>
-              </Button>
             </motion.div>
           </div>
         </div>
