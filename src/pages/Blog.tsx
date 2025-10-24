@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format } from "date-fns";
 import { ar, enUS } from "date-fns/locale";
 
@@ -28,6 +29,7 @@ const Blog = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [typeFilter, setTypeFilter] = useState("all");
 
   useEffect(() => {
     loadPosts();
@@ -51,19 +53,24 @@ const Blog = () => {
   };
 
   const filteredPosts = posts.filter((post) => {
-    if (searchQuery === "") return true;
-    return (
-      post.title?.[locale]?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.excerpt?.[locale]?.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    if (searchQuery !== "") {
+      const matchesSearch =
+        post.title?.[locale]?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        post.excerpt?.[locale]?.toLowerCase().includes(searchQuery.toLowerCase());
+      if (!matchesSearch) return false;
+    }
+    if (typeFilter !== "all" && post.type !== typeFilter) {
+      return false;
+    }
+    return true;
   });
 
   const dateLocale = locale === "ar" ? ar : enUS;
 
   const seoTitle = locale === "ar" ? "المدونة" : "Blog";
   const seoDescription = locale === "ar"
-    ? "مقالات وأدلة ومعلومات مفيدة حول مرض السكري. معلومات موثوقة لإدارة السكري بشكل أفضل"
-    : "Articles, guides, and useful information about diabetes. Trusted information for better diabetes management";
+    ? "مقالات وأدلة ومعلومات مفيدة حول مرض السكري في اليمن. معلومات موثوقة لإدارة السكري بشكل أفضل"
+    : "Articles, guides, and useful information about diabetes in Yemen. Trusted information for better diabetes management";
 
   return (
     <PublicLayout>
@@ -86,13 +93,23 @@ const Blog = () => {
           {t("resources:subtitle")}
         </p>
 
-        <div className="mb-8">
+        <div className="mb-8 flex flex-col sm:flex-row gap-4">
           <Input
             placeholder={t("common:search")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="max-w-md"
           />
+          <Select value={typeFilter} onValueChange={setTypeFilter}>
+            <SelectTrigger className="w-full sm:w-48">
+              <SelectValue placeholder={t("common:filter")} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">{locale === "ar" ? "الكل" : "All"}</SelectItem>
+              <SelectItem value="article">{locale === "ar" ? "مقالات" : "Articles"}</SelectItem>
+              <SelectItem value="guide">{locale === "ar" ? "أدلة" : "Guides"}</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         {loading ? (
