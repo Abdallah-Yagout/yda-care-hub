@@ -16,6 +16,7 @@ import AdminPrograms from "./Programs";
 import AdminProgramDetail from "./programs/[id]";
 import AdminPosts from "./Posts";
 import AdminKPIs from "./KPIs";
+import Analytics from "./Analytics";
 import AdminSettings from "./Settings";
 import AdminSubmissions from "./Submissions";
 
@@ -107,6 +108,7 @@ const AdminDashboard = () => {
               <Route path="programs/:id" element={<AdminProgramDetail />} />
               <Route path="posts" element={<AdminPosts />} />
               <Route path="kpis" element={<AdminKPIs />} />
+              <Route path="analytics" element={<Analytics />} />
               <Route path="submissions" element={<AdminSubmissions />} />
               <Route path="settings" element={<AdminSettings />} />
             </Routes>

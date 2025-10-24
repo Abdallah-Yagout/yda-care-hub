@@ -9,6 +9,7 @@ import {
   LogOut,
   BarChart,
   TrendingUp,
+  LineChart,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -44,6 +45,7 @@ export function AppSidebar({ role }: AppSidebarProps) {
     { icon: BookOpen, label: "Programs", path: "/admin/programs", roles: ["SUPERADMIN", "EDITOR"] },
     { icon: FileEdit, label: "Blog Posts", path: "/admin/posts", roles: ["SUPERADMIN", "EDITOR"] },
     { icon: TrendingUp, label: "KPIs", path: "/admin/kpis", roles: ["SUPERADMIN", "EDITOR"] },
+    { icon: LineChart, label: "Analytics", path: "/admin/analytics", roles: ["SUPERADMIN", "EDITOR"] },
     { icon: BarChart, label: "Submissions", path: "/admin/submissions", roles: ["SUPERADMIN", "EDITOR"] },
     { icon: Settings, label: "Settings", path: "/admin/settings", roles: ["SUPERADMIN"] },
   ];

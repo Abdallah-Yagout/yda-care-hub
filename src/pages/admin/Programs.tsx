@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePrograms, useDeleteProgram } from "@/hooks/usePrograms";
 import { useRealtimeSubscription } from "@/hooks/useRealtimeSubscription";
+import { useActivityLog } from "@/hooks/useActivityLog";
 import { useQueryClient } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -30,6 +31,7 @@ const AdminPrograms = () => {
 
   const { data: programs, isLoading } = usePrograms();
   const deleteProgram = useDeleteProgram();
+  const { logActivity } = useActivityLog();
 
   // Real-time subscription
   useRealtimeSubscription({
@@ -62,6 +64,11 @@ const AdminPrograms = () => {
   const handleDelete = async () => {
     if (deleteId) {
       await deleteProgram.mutateAsync(deleteId);
+      await logActivity({
+        action: 'delete',
+        entity_type: 'program',
+        entity_id: deleteId,
+      });
       setDeleteId(null);
     }
   };
