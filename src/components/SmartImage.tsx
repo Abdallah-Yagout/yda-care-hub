@@ -6,6 +6,8 @@ interface SmartImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   alt: string;
   aspectRatio?: "square" | "video" | "portrait" | "landscape";
   withPlaceholder?: boolean;
+  sizes?: string;
+  srcSet?: string;
 }
 
 export const SmartImage = ({
@@ -14,6 +16,8 @@ export const SmartImage = ({
   aspectRatio = "landscape",
   withPlaceholder = true,
   className,
+  sizes,
+  srcSet,
   ...props
 }: SmartImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -30,10 +34,12 @@ export const SmartImage = ({
     return (
       <div
         className={cn(
-          "flex items-center justify-center bg-muted text-muted-foreground",
+          "flex items-center justify-center bg-muted text-muted-foreground rounded-lg",
           aspectClasses[aspectRatio],
           className
         )}
+        role="img"
+        aria-label={alt}
       >
         <span className="text-sm">Image unavailable</span>
       </div>
@@ -41,19 +47,25 @@ export const SmartImage = ({
   }
 
   return (
-    <div className={cn("relative overflow-hidden", aspectClasses[aspectRatio], className)}>
+    <div className={cn("relative overflow-hidden rounded-lg", aspectClasses[aspectRatio], className)}>
+      {/* Shimmer placeholder */}
       {withPlaceholder && !isLoaded && (
-        <div className="absolute inset-0 animate-pulse bg-muted" />
+        <div className="absolute inset-0 shimmer bg-gradient-to-r from-muted via-muted-foreground/10 to-muted" />
       )}
+      
+      {/* Main image */}
       <img
         src={src}
         alt={alt}
+        srcSet={srcSet}
+        sizes={sizes || "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"}
         loading="lazy"
+        decoding="async"
         onLoad={() => setIsLoaded(true)}
         onError={() => setHasError(true)}
         className={cn(
-          "h-full w-full object-cover transition-opacity duration-300",
-          isLoaded ? "opacity-100" : "opacity-0"
+          "h-full w-full object-cover transition-all duration-500 ease-out",
+          isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-105"
         )}
         {...props}
       />
