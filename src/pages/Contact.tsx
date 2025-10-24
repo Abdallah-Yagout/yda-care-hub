@@ -15,10 +15,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail, Phone, MapPin } from "lucide-react";
 
 const contactSchema = z.object({
-  name: z.string().min(2, "Name is required"),
-  email: z.string().email("Invalid email"),
-  phone: z.string().optional(),
-  message: z.string().min(10, "Message must be at least 10 characters"),
+  name: z.string().min(2, "Name is required").max(100, "Name too long"),
+  email: z.string().email("Invalid email").max(255, "Email too long"),
+  phone: z.string().min(6, "Phone number is required").max(20, "Phone too long").regex(/^\+?[0-9\s-]+$/, "Invalid phone format").optional(),
+  message: z.string().min(10, "Message must be at least 10 characters").max(2000, "Message too long"),
 });
 
 type ContactForm = z.infer<typeof contactSchema>;

@@ -35,10 +35,10 @@ interface Event {
 }
 
 const registrationSchema = z.object({
-  name: z.string().min(2, "Name is required"),
-  email: z.string().email("Invalid email"),
-  phone: z.string().min(6, "Phone number is required"),
-  notes: z.string().optional(),
+  name: z.string().min(2, "Name is required").max(100, "Name too long"),
+  email: z.string().email("Invalid email").max(255, "Email too long"),
+  phone: z.string().min(6, "Phone number is required").max(20, "Phone too long").regex(/^\+?[0-9\s-]+$/, "Invalid phone format"),
+  notes: z.string().max(1000, "Notes too long").optional(),
 });
 
 type RegistrationForm = z.infer<typeof registrationSchema>;
