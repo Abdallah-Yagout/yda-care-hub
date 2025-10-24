@@ -21,6 +21,8 @@ import Analytics from "./Analytics";
 import AdminSettings from "./Settings";
 import AdminSubmissions from "./Submissions";
 import AdminMedia from "./Media";
+import AdminVideos from "./Videos";
+import VideoForm from "./videos/VideoForm";
 
 const AdminDashboard = () => {
   const { user, role, loading, isAuthenticated } = useAuthGuard(true);
@@ -115,6 +117,9 @@ const AdminDashboard = () => {
               <Route path="analytics" element={<Analytics />} />
               <Route path="submissions" element={<AdminSubmissions />} />
               <Route path="media" element={<AdminMedia />} />
+              <Route path="videos" element={<AdminVideos />} />
+              <Route path="videos/new" element={<VideoForm />} />
+              <Route path="videos/:id" element={<VideoForm />} />
               <Route path="settings" element={<AdminSettings />} />
             </Routes>
           </div>

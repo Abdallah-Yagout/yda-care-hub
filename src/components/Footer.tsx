@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useLocale } from "@/hooks/use-locale";
-import { Facebook, Youtube, Heart, Mail, Phone, MapPin, Home, Calendar, BookOpen, FileText } from "lucide-react";
+import { Facebook, Youtube, Heart, Mail, Phone, MapPin, Home, Calendar, BookOpen, FileText, Video } from "lucide-react";
 
 export const Footer = () => {
   const { t } = useTranslation();
@@ -12,6 +12,7 @@ export const Footer = () => {
     { label: t("common:nav.programs"), path: `/${locale}/programs`, icon: BookOpen },
     { label: t("common:nav.events"), path: `/${locale}/events`, icon: Calendar },
     { label: t("common:nav.resources"), path: `/${locale}/blog`, icon: FileText },
+    { label: t("common:nav.videos"), path: `/${locale}/videos`, icon: Video },
   ];
 
   return (

@@ -10,6 +10,8 @@ import eventsAr from './locales/events/ar.json';
 import eventsEn from './locales/events/en.json';
 import resourcesAr from './locales/resources/ar.json';
 import resourcesEn from './locales/resources/en.json';
+import videosAr from './locales/videos/ar.json';
+import videosEn from './locales/videos/en.json';
 import cmsAr from './locales/cms/ar.json';
 import cmsEn from './locales/cms/en.json';
 
@@ -22,6 +24,7 @@ i18n
         home: homeAr,
         events: eventsAr,
         resources: resourcesAr,
+        videos: videosAr,
         cms: cmsAr
       },
       en: {
@@ -29,13 +32,14 @@ i18n
         home: homeEn,
         events: eventsEn,
         resources: resourcesEn,
+        videos: videosEn,
         cms: cmsEn
       }
     },
     lng: 'ar', // default language (Arabic)
     fallbackLng: 'ar',
     defaultNS: 'common',
-    ns: ['common', 'home', 'events', 'resources', 'cms'],
+    ns: ['common', 'home', 'events', 'resources', 'videos', 'cms'],
     interpolation: {
       escapeValue: false
     },

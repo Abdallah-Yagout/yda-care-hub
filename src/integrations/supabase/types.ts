@@ -553,6 +553,51 @@ export type Database = {
         }
         Relationships: []
       }
+      video: {
+        Row: {
+          channel: Json | null
+          created_at: string
+          description: Json | null
+          id: string
+          published_at: string | null
+          sort: number | null
+          status: string | null
+          tags: Json | null
+          thumbnail_url: string | null
+          title: Json
+          updated_at: string
+          youtube_id: string
+        }
+        Insert: {
+          channel?: Json | null
+          created_at?: string
+          description?: Json | null
+          id?: string
+          published_at?: string | null
+          sort?: number | null
+          status?: string | null
+          tags?: Json | null
+          thumbnail_url?: string | null
+          title?: Json
+          updated_at?: string
+          youtube_id: string
+        }
+        Update: {
+          channel?: Json | null
+          created_at?: string
+          description?: Json | null
+          id?: string
+          published_at?: string | null
+          sort?: number | null
+          status?: string | null
+          tags?: Json | null
+          thumbnail_url?: string | null
+          title?: Json
+          updated_at?: string
+          youtube_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

@@ -15,6 +15,7 @@ import Programs from "./pages/Programs";
 import ProgramDetail from "./pages/ProgramDetail";
 import Blog from "./pages/Blog";
 import BlogDetail from "./pages/BlogDetail";
+import Videos from "./pages/Videos";
 import GetInvolved from "./pages/GetInvolved";
 import Contact from "./pages/Contact";
 
@@ -64,6 +65,7 @@ const App = () => {
               <Route path="/:locale/programs/:slug" element={<ProgramDetail />} />
               <Route path="/:locale/blog" element={<Blog />} />
               <Route path="/:locale/blog/:slug" element={<BlogDetail />} />
+              <Route path="/:locale/videos" element={<Videos />} />
               <Route path="/:locale/get-involved" element={<GetInvolved />} />
               <Route path="/:locale/contact" element={<Contact />} />
               

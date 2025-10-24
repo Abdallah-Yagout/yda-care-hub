@@ -4,7 +4,7 @@ import { useLocale } from "@/hooks/use-locale";
 import { useTranslation } from "react-i18next";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
-import { Globe, Home, Calendar, BookOpen, FileText, Users, Mail, Menu, X } from "lucide-react";
+import { Globe, Home, Calendar, BookOpen, FileText, Users, Mail, Menu, X, Video } from "lucide-react";
 import { cn } from "@/lib/utils";
 import logo from "@/assets/logo.png";
 
@@ -19,6 +19,7 @@ export const Header = () => {
     { label: t("common:nav.programs"), path: `/${locale}/programs`, icon: BookOpen },
     { label: t("common:nav.events"), path: `/${locale}/events`, icon: Calendar },
     { label: t("common:nav.resources"), path: `/${locale}/blog`, icon: FileText },
+    { label: t("common:nav.videos"), path: `/${locale}/videos`, icon: Video },
     { label: t("common:nav.getInvolved"), path: `/${locale}/get-involved`, icon: Users },
     { label: t("common:nav.contact"), path: `/${locale}/contact`, icon: Mail },
   ];
