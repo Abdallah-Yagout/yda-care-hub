@@ -90,7 +90,7 @@ const Resources = () => {
 
         <div className="mb-8">
           <Input
-            placeholder={t("common.search")}
+            placeholder={t("common:search")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="max-w-md"
@@ -99,7 +99,7 @@ const Resources = () => {
 
         {loading ? (
           <div className="text-center py-12">
-            <p>{t("common.loading")}</p>
+            <p>{t("common:loading")}</p>
           </div>
         ) : filteredPosts.length === 0 ? (
           <div className="text-center py-12">
@@ -153,7 +153,7 @@ const Resources = () => {
                 <CardFooter>
                   <Button asChild variant="outline" className="w-full">
                     <Link to={`/${locale}/resources/${post.slug}`}>
-                      {t("common.readMore")}
+                      {t("common:readMore")}
                     </Link>
                   </Button>
                 </CardFooter>

@@ -25,7 +25,7 @@ type ContactForm = z.infer<typeof contactSchema>;
 
 const Contact = () => {
   const { locale } = useLocale();
-  const { t } = useTranslation();
+  const { t } = useTranslation(["common", "contact"]);
 
   const {
     register,
@@ -45,11 +45,11 @@ const Contact = () => {
 
       if (error) throw error;
 
-      toast.success(t("contact.success"));
+      toast.success(t("common:contact.success"));
       reset();
     } catch (error) {
       console.error("Error submitting contact form:", error);
-      toast.error(t("common.error"));
+      toast.error(t("common:error"));
     }
   };
 
@@ -76,7 +76,7 @@ const Contact = () => {
       <div className="container py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div>
-            <h1 className="text-4xl font-bold mb-4">{t("contact.title")}</h1>
+            <h1 className="text-4xl font-bold mb-4">{t("common:contact.title")}</h1>
             <p className="text-xl text-muted-foreground mb-8">
               {locale === "ar"
                 ? "نحن هنا للإجابة على أسئلتكم ومساعدتكم"
@@ -146,7 +146,7 @@ const Contact = () => {
             <CardContent>
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div>
-                  <Label htmlFor="name">{t("contact.name")}</Label>
+                  <Label htmlFor="name">{t("common:contact.name")}</Label>
                   <Input id="name" {...register("name")} />
                   {errors.name && (
                     <p className="text-sm text-destructive mt-1">
@@ -156,7 +156,7 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <Label htmlFor="email">{t("contact.email")}</Label>
+                  <Label htmlFor="email">{t("common:contact.email")}</Label>
                   <Input id="email" type="email" {...register("email")} />
                   {errors.email && (
                     <p className="text-sm text-destructive mt-1">
@@ -173,7 +173,7 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <Label htmlFor="message">{t("contact.message")}</Label>
+                  <Label htmlFor="message">{t("common:contact.message")}</Label>
                   <Textarea id="message" {...register("message")} rows={5} />
                   {errors.message && (
                     <p className="text-sm text-destructive mt-1">
@@ -183,7 +183,7 @@ const Contact = () => {
                 </div>
 
                 <Button type="submit" className="w-full" disabled={isSubmitting}>
-                  {isSubmitting ? t("common.loading") : t("contact.send")}
+                  {isSubmitting ? t("common:loading") : t("common:contact.send")}
                 </Button>
               </form>
             </CardContent>

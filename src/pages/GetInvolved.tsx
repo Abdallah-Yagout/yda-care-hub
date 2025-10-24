@@ -27,7 +27,7 @@ type VolunteerForm = z.infer<typeof volunteerSchema>;
 
 const GetInvolved = () => {
   const { locale } = useLocale();
-  const { t } = useTranslation();
+  const { t } = useTranslation(["common"]);
 
   const {
     register,
@@ -55,7 +55,7 @@ const GetInvolved = () => {
       reset();
     } catch (error) {
       console.error("Error submitting volunteer form:", error);
-      toast.error(t("common.error"));
+      toast.error(t("common:error"));
     }
   };
 
@@ -187,7 +187,7 @@ const GetInvolved = () => {
                     </div>
 
                     <Button type="submit" className="w-full" disabled={isSubmitting}>
-                      {isSubmitting ? t("common.loading") : locale === "ar" ? "إرسال الطلب" : "Submit Application"}
+                      {isSubmitting ? t("common:loading") : locale === "ar" ? "إرسال الطلب" : "Submit Application"}
                     </Button>
                   </form>
                 </CardContent>

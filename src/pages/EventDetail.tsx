@@ -76,7 +76,7 @@ const EventDetail = () => {
       setEvent(data);
     } catch (error) {
       console.error("Error loading event:", error);
-      toast.error(t("common.error"));
+      toast.error(t("common:error"));
     } finally {
       setLoading(false);
     }
@@ -103,7 +103,7 @@ const EventDetail = () => {
       reset();
     } catch (error) {
       console.error("Error submitting registration:", error);
-      toast.error(t("common.error"));
+      toast.error(t("common:error"));
     } finally {
       setSubmitting(false);
     }
@@ -167,7 +167,7 @@ END:VCALENDAR`;
     return (
       <PublicLayout>
         <div className="container py-12 text-center">
-          <p>{t("common.loading")}</p>
+          <p>{t("common:loading")}</p>
         </div>
       </PublicLayout>
     );
@@ -393,7 +393,7 @@ END:VCALENDAR`;
 
                   <Button type="submit" className="w-full" disabled={submitting}>
                     {submitting
-                      ? t("common.loading")
+                      ? t("common:loading")
                       : t("events.register")}
                   </Button>
                 </form>

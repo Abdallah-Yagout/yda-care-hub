@@ -74,7 +74,7 @@ const Programs = () => {
 
         {loading ? (
           <div className="text-center py-12">
-            <p>{t("common.loading")}</p>
+            <p>{t("common:loading")}</p>
           </div>
         ) : programs.length === 0 ? (
           <div className="text-center py-12">
@@ -110,7 +110,7 @@ const Programs = () => {
                 <CardFooter>
                   <Button asChild variant="outline" className="w-full">
                     <Link to={`/${locale}/programs/${program.slug}`}>
-                      {t("common.learnMore")}
+                      {t("common:learnMore")}
                     </Link>
                   </Button>
                 </CardFooter>

@@ -53,7 +53,7 @@ interface Post {
 
 const Index = () => {
   const { locale } = useLocale();
-  const { t } = useTranslation();
+  const { t } = useTranslation(["common", "home"]);
   const [blocks, setBlocks] = useState<Block[]>([]);
   const [kpis, setKPIs] = useState<KPI[]>([]);
   const [programs, setPrograms] = useState<Program[]>([]);
@@ -141,7 +141,7 @@ const Index = () => {
     return (
       <PublicLayout>
         <div className="flex items-center justify-center min-h-[60vh]">
-          <p>{t("common.loading")}</p>
+          <p>{t("common:loading")}</p>
         </div>
       </PublicLayout>
     );
@@ -213,7 +213,7 @@ const Index = () => {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
             >
-              {hero?.title?.[locale] || t("hero.title")}
+              {hero?.title?.[locale] || t("home:hero.title")}
             </motion.h1>
             
             <motion.p
@@ -222,7 +222,7 @@ const Index = () => {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="text-xl md:text-2xl text-muted-foreground mb-10 leading-relaxed max-w-2xl"
             >
-              {hero?.content?.[locale] || t("hero.subtitle")}
+              {hero?.content?.[locale] || t("home:hero.subtitle")}
             </motion.p>
             
             <motion.div
@@ -234,13 +234,13 @@ const Index = () => {
               <Button size="lg" asChild className="shadow-lg hover:shadow-xl transition-all">
                 <Link to={`/${locale}/events`}>
                   <Calendar className={locale === "ar" ? "ml-2 h-5 w-5" : "mr-2 h-5 w-5"} />
-                  {t("hero.cta1")}
+                  {t("home:hero.cta1")}
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild className="border-2 backdrop-blur-sm">
                 <Link to={`/${locale}/get-involved`}>
                   <Users className={locale === "ar" ? "ml-2 h-5 w-5" : "mr-2 h-5 w-5"} />
-                  {t("hero.cta2")}
+                  {t("home:hero.cta2")}
                 </Link>
               </Button>
             </motion.div>
@@ -390,7 +390,7 @@ const Index = () => {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              {t("home.kpis")}
+              {t("home:kpis")}
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               {locale === "ar" 
@@ -684,7 +684,7 @@ const Index = () => {
             transition={{ delay: 0.2 }}
             className="text-3xl font-bold mb-4"
           >
-            {t("home.cta")}
+            {t("home:cta")}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -704,7 +704,7 @@ const Index = () => {
             transition={{ delay: 0.4 }}
           >
             <Button size="lg" variant="secondary" asChild className="shadow-xl">
-              <Link to={`/${locale}/get-involved`}>{t("common.learnMore")}</Link>
+              <Link to={`/${locale}/get-involved`}>{t("common:learnMore")}</Link>
             </Button>
           </motion.div>
         </div>

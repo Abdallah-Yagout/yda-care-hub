@@ -54,7 +54,7 @@ const ResourceDetail = () => {
     return (
       <PublicLayout>
         <div className="container py-12 text-center">
-          <p>{t("common.loading")}</p>
+          <p>{t("common:loading")}</p>
         </div>
       </PublicLayout>
     );
