@@ -21,6 +21,7 @@ export const useAuthGuard = (requireAuth: boolean = true) => {
 
   useEffect(() => {
     let mounted = true;
+    let isInitializing = true;
 
     const initializeAuth = async () => {
       try {
@@ -32,18 +33,20 @@ export const useAuthGuard = (requireAuth: boolean = true) => {
         if (error) {
           console.error("[useAuthGuard] Session error:", error);
           setState({ user: null, role: null, loading: false, isAuthenticated: false });
-          if (requireAuth) {
+          if (requireAuth && !isInitializing) {
             navigate("/admin/login", { replace: true });
           }
+          isInitializing = false;
           return;
         }
 
         if (!session) {
           console.log("[useAuthGuard] No active session");
           setState({ user: null, role: null, loading: false, isAuthenticated: false });
-          if (requireAuth) {
+          if (requireAuth && !isInitializing) {
             navigate("/admin/login", { replace: true });
           }
+          isInitializing = false;
           return;
         }
 
@@ -71,14 +74,16 @@ export const useAuthGuard = (requireAuth: boolean = true) => {
           loading: false,
           isAuthenticated: true,
         });
+        isInitializing = false;
 
       } catch (error) {
         console.error("[useAuthGuard] Initialization error:", error);
         if (!mounted) return;
         setState({ user: null, role: null, loading: false, isAuthenticated: false });
-        if (requireAuth) {
+        if (requireAuth && !isInitializing) {
           navigate("/admin/login", { replace: true });
         }
+        isInitializing = false;
       }
     };
 
