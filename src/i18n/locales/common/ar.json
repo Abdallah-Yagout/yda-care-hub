@@ -10,5 +10,25 @@
   "filter": "تصفية",
   "viewAll": "عرض الكل",
   "readMore": "اقرأ المزيد",
-  "learnMore": "معرفة المزيد"
+  "learnMore": "معرفة المزيد",
+  "nav": {
+    "home": "الرئيسية",
+    "programs": "البرامج",
+    "events": "الفعاليات",
+    "resources": "المصادر",
+    "getInvolved": "شارك معنا",
+    "contact": "اتصل بنا"
+  },
+  "footer": {
+    "quickLinks": "روابط سريعة",
+    "contact": "تواصل معنا"
+  },
+  "contact": {
+    "title": "اتصل بنا",
+    "name": "الاسم",
+    "email": "البريد الإلكتروني",
+    "message": "الرسالة",
+    "send": "إرسال",
+    "success": "تم إرسال الرسالة بنجاح!"
+  }
 }

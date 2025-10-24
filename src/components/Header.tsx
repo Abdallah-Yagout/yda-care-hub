@@ -15,12 +15,12 @@ export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { label: t("home:nav.home"), path: `/${locale}`, icon: Home },
-    { label: t("home:nav.programs"), path: `/${locale}/programs`, icon: BookOpen },
-    { label: t("home:nav.events"), path: `/${locale}/events`, icon: Calendar },
-    { label: t("home:nav.resources"), path: `/${locale}/resources`, icon: FileText },
-    { label: t("home:nav.getInvolved"), path: `/${locale}/get-involved`, icon: Users },
-    { label: t("resources:contact.title"), path: `/${locale}/contact`, icon: Mail },
+    { label: t("common:nav.home"), path: `/${locale}`, icon: Home },
+    { label: t("common:nav.programs"), path: `/${locale}/programs`, icon: BookOpen },
+    { label: t("common:nav.events"), path: `/${locale}/events`, icon: Calendar },
+    { label: t("common:nav.resources"), path: `/${locale}/resources`, icon: FileText },
+    { label: t("common:nav.getInvolved"), path: `/${locale}/get-involved`, icon: Users },
+    { label: t("common:nav.contact"), path: `/${locale}/contact`, icon: Mail },
   ];
 
   const isActiveRoute = (path: string) => {

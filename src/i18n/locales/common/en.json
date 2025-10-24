@@ -10,5 +10,25 @@
   "filter": "Filter",
   "viewAll": "View All",
   "readMore": "Read More",
-  "learnMore": "Learn More"
+  "learnMore": "Learn More",
+  "nav": {
+    "home": "Home",
+    "programs": "Programs",
+    "events": "Events",
+    "resources": "Resources",
+    "getInvolved": "Get Involved",
+    "contact": "Contact"
+  },
+  "footer": {
+    "quickLinks": "Quick Links",
+    "contact": "Contact"
+  },
+  "contact": {
+    "title": "Contact",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "send": "Send Message",
+    "success": "Message sent successfully!"
+  }
 }
