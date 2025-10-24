@@ -15,6 +15,7 @@ import EventForm from "./events/EventForm";
 import AdminPrograms from "./Programs";
 import AdminProgramDetail from "./programs/[id]";
 import AdminPosts from "./Posts";
+import PostForm from "./posts/PostForm";
 import AdminKPIs from "./KPIs";
 import Analytics from "./Analytics";
 import AdminSettings from "./Settings";
@@ -107,6 +108,8 @@ const AdminDashboard = () => {
               <Route path="programs" element={<AdminPrograms />} />
               <Route path="programs/:id" element={<AdminProgramDetail />} />
               <Route path="posts" element={<AdminPosts />} />
+              <Route path="posts/new" element={<PostForm />} />
+              <Route path="posts/:id" element={<PostForm />} />
               <Route path="kpis" element={<AdminKPIs />} />
               <Route path="analytics" element={<Analytics />} />
               <Route path="submissions" element={<AdminSubmissions />} />
