@@ -22,10 +22,10 @@ interface Post {
   published_at?: string;
 }
 
-const ResourceDetail = () => {
+const BlogDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const { locale } = useLocale();
-  const { t } = useTranslation();
+  const { t } = useTranslation(["common", "resources"]);
   const [post, setPost] = useState<Post | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -65,11 +65,11 @@ const ResourceDetail = () => {
       <PublicLayout>
         <div className="container py-12 text-center">
           <p className="mb-4">
-            {locale === "ar" ? "المقال غير موجود" : "Article not found"}
+            {t("resources:articleNotFound")}
           </p>
           <Button asChild>
-            <Link to={`/${locale}/resources`}>
-              {locale === "ar" ? "العودة للموارد" : "Back to Resources"}
+            <Link to={`/${locale}/blog`}>
+              {t("resources:backToBlog")}
             </Link>
           </Button>
         </div>
@@ -84,10 +84,10 @@ const ResourceDetail = () => {
       <Helmet>
         <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} />
         <title>{post.title?.[locale] || "Article"} | YDA</title>
-        <meta name="description" content={post.excerpt?.[locale] || "Resource details"} />
-        <link rel="canonical" href={`${window.location.origin}/${locale}/resources/${slug}`} />
-        <link rel="alternate" hrefLang="ar" href={`${window.location.origin}/ar/resources/${slug}`} />
-        <link rel="alternate" hrefLang="en" href={`${window.location.origin}/en/resources/${slug}`} />
+        <meta name="description" content={post.excerpt?.[locale] || "Blog article"} />
+        <link rel="canonical" href={`${window.location.origin}/${locale}/blog/${slug}`} />
+        <link rel="alternate" hrefLang="ar" href={`${window.location.origin}/ar/blog/${slug}`} />
+        <link rel="alternate" hrefLang="en" href={`${window.location.origin}/en/blog/${slug}`} />
         <meta property="og:type" content="article" />
         <meta property="og:title" content={`${post.title?.[locale]} | YDA`} />
         <meta property="og:description" content={post.excerpt?.[locale] || ""} />
@@ -145,8 +145,8 @@ const ResourceDetail = () => {
 
           <div className="mt-8">
             <Button asChild variant="outline">
-              <Link to={`/${locale}/resources`}>
-                {locale === "ar" ? "العودة للموارد" : "Back to Resources"}
+              <Link to={`/${locale}/blog`}>
+                {t("resources:backToBlog")}
               </Link>
             </Button>
           </div>
@@ -156,4 +156,4 @@ const ResourceDetail = () => {
   );
 };
 
-export default ResourceDetail;
+export default BlogDetail;

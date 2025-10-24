@@ -13,8 +13,8 @@ import Events from "./pages/Events";
 import EventDetail from "./pages/EventDetail";
 import Programs from "./pages/Programs";
 import ProgramDetail from "./pages/ProgramDetail";
-import Resources from "./pages/Resources";
-import ResourceDetail from "./pages/ResourceDetail";
+import Blog from "./pages/Blog";
+import BlogDetail from "./pages/BlogDetail";
 import GetInvolved from "./pages/GetInvolved";
 import Contact from "./pages/Contact";
 
@@ -62,8 +62,8 @@ const App = () => {
               <Route path="/:locale/events/:slug" element={<EventDetail />} />
               <Route path="/:locale/programs" element={<Programs />} />
               <Route path="/:locale/programs/:slug" element={<ProgramDetail />} />
-              <Route path="/:locale/resources" element={<Resources />} />
-              <Route path="/:locale/resources/:slug" element={<ResourceDetail />} />
+              <Route path="/:locale/blog" element={<Blog />} />
+              <Route path="/:locale/blog/:slug" element={<BlogDetail />} />
               <Route path="/:locale/get-involved" element={<GetInvolved />} />
               <Route path="/:locale/contact" element={<Contact />} />
               

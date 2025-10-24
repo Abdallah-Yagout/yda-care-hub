@@ -22,7 +22,7 @@ interface Post {
   published_at?: string;
 }
 
-const Resources = () => {
+const Blog = () => {
   const { locale } = useLocale();
   const { t } = useTranslation(["common", "resources"]);
   const [posts, setPosts] = useState<Post[]>([]);
@@ -60,10 +60,10 @@ const Resources = () => {
 
   const dateLocale = locale === "ar" ? ar : enUS;
 
-  const seoTitle = locale === "ar" ? "المصادر" : "Resources";
+  const seoTitle = locale === "ar" ? "المدونة" : "Blog";
   const seoDescription = locale === "ar"
-    ? "مقالات وأدلة ومصادر عن السكري. معلومات موثوقة لإدارة السكري بشكل أفضل"
-    : "Articles, guides, and resources about diabetes. Trusted information for better diabetes management";
+    ? "مقالات وأدلة ومعلومات مفيدة حول مرض السكري. معلومات موثوقة لإدارة السكري بشكل أفضل"
+    : "Articles, guides, and useful information about diabetes. Trusted information for better diabetes management";
 
   return (
     <PublicLayout>
@@ -71,9 +71,9 @@ const Resources = () => {
         <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} />
         <title>{seoTitle} | YDA</title>
         <meta name="description" content={seoDescription} />
-        <link rel="canonical" href={`${window.location.origin}/${locale}/resources`} />
-        <link rel="alternate" hrefLang="ar" href={`${window.location.origin}/ar/resources`} />
-        <link rel="alternate" hrefLang="en" href={`${window.location.origin}/en/resources`} />
+        <link rel="canonical" href={`${window.location.origin}/${locale}/blog`} />
+        <link rel="alternate" hrefLang="ar" href={`${window.location.origin}/ar/blog`} />
+        <link rel="alternate" hrefLang="en" href={`${window.location.origin}/en/blog`} />
         <meta property="og:type" content="website" />
         <meta property="og:title" content={`${seoTitle} | YDA`} />
         <meta property="og:description" content={seoDescription} />
@@ -83,9 +83,7 @@ const Resources = () => {
       <div className="container py-12">
         <h1 className="text-4xl font-bold mb-4">{t("resources:title")}</h1>
         <p className="text-xl text-muted-foreground mb-8 max-w-3xl">
-          {locale === "ar"
-            ? "مقالات وأدلة ومعلومات مفيدة حول مرض السكري"
-            : "Articles, guides, and useful information about diabetes"}
+          {t("resources:subtitle")}
         </p>
 
         <div className="mb-8">
@@ -104,7 +102,7 @@ const Resources = () => {
         ) : filteredPosts.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-muted-foreground">
-              {locale === "ar" ? "لا توجد مقالات" : "No articles found"}
+              {t("resources:notFound")}
             </p>
           </div>
         ) : (
@@ -152,7 +150,7 @@ const Resources = () => {
                 </CardContent>
                 <CardFooter>
                   <Button asChild variant="outline" className="w-full">
-                    <Link to={`/${locale}/resources/${post.slug}`}>
+                    <Link to={`/${locale}/blog/${post.slug}`}>
                       {t("common:readMore")}
                     </Link>
                   </Button>
@@ -166,4 +164,4 @@ const Resources = () => {
   );
 };
 
-export default Resources;
+export default Blog;

@@ -18,7 +18,7 @@ export const Header = () => {
     { label: t("common:nav.home"), path: `/${locale}`, icon: Home },
     { label: t("common:nav.programs"), path: `/${locale}/programs`, icon: BookOpen },
     { label: t("common:nav.events"), path: `/${locale}/events`, icon: Calendar },
-    { label: t("common:nav.resources"), path: `/${locale}/resources`, icon: FileText },
+    { label: t("common:nav.resources"), path: `/${locale}/blog`, icon: FileText },
     { label: t("common:nav.getInvolved"), path: `/${locale}/get-involved`, icon: Users },
     { label: t("common:nav.contact"), path: `/${locale}/contact`, icon: Mail },
   ];
