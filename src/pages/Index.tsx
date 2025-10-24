@@ -12,7 +12,7 @@ import { AnimatedCard } from "@/components/AnimatedCard";
 import { CountUpNumber } from "@/components/CountUpNumber";
 import { Target, Eye, Heart, Users, Activity, TrendingUp, Calendar } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import heroImage from "@/assets/hero-diabetes-care.jpg";
+import heroImage from "@/assets/hero-yda.jpg";
 
 interface Block {
   key: string;
