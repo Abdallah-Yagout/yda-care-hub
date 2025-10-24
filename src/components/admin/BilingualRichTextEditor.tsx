@@ -13,6 +13,7 @@ import {
   Link as LinkIcon
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import DOMPurify from "dompurify";
 
 interface BilingualRichTextEditorProps {
   label: string;
@@ -32,9 +33,15 @@ export const BilingualRichTextEditor = ({
   const [activeTab, setActiveTab] = useState<'ar' | 'en'>('ar');
 
   const handleChange = (lang: 'ar' | 'en', newValue: string) => {
+    // Sanitize HTML to prevent XSS attacks
+    const sanitizedValue = DOMPurify.sanitize(newValue, {
+      ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'h2', 'h3', 'ul', 'ol', 'li', 'a'],
+      ALLOWED_ATTR: ['href', 'target', 'rel']
+    });
+    
     onChange({
       ...value,
-      [lang]: newValue
+      [lang]: sanitizedValue
     });
   };
 
@@ -125,7 +132,10 @@ export const BilingualRichTextEditor = ({
             contentEditable
             suppressContentEditableWarning
             onInput={(e) => handleChange('ar', e.currentTarget.innerHTML)}
-            dangerouslySetInnerHTML={{ __html: value.ar || '' }}
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(value.ar || '', {
+              ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'h2', 'h3', 'ul', 'ol', 'li', 'a'],
+              ALLOWED_ATTR: ['href', 'target', 'rel']
+            }) }}
             className={cn(
               "min-h-[300px] w-full rounded-b-md border border-input bg-background px-3 py-2",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
@@ -140,7 +150,10 @@ export const BilingualRichTextEditor = ({
             contentEditable
             suppressContentEditableWarning
             onInput={(e) => handleChange('en', e.currentTarget.innerHTML)}
-            dangerouslySetInnerHTML={{ __html: value.en || '' }}
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(value.en || '', {
+              ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'h2', 'h3', 'ul', 'ol', 'li', 'a'],
+              ALLOWED_ATTR: ['href', 'target', 'rel']
+            }) }}
             className={cn(
               "min-h-[300px] w-full rounded-b-md border border-input bg-background px-3 py-2",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
